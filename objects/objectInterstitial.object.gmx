@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>appodeal_show(INTERSTITIAL)
+            <string>appodeal_show_with_placement(INTERSTITIAL, "level_end")
 </string>
           </argument>
         </arguments>

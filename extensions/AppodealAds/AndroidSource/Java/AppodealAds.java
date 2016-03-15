@@ -44,6 +44,10 @@ public class AppodealAds extends Activity  {
 	public void appodeal_show(double Arg){
 		Appodeal.show(RunnerActivity.CurrentActivity, getAdsType(Arg));
 	}
+	
+	public void appodeal_show_with_placement(double Arg, String placement){
+		Appodeal.show(RunnerActivity.CurrentActivity, getAdsType(Arg), placement);
+	}
 
 	public void appodeal_hide(double Arg){
 		Appodeal.hide(RunnerActivity.CurrentActivity, getAdsType(Arg));
@@ -93,17 +97,6 @@ public class AppodealAds extends Activity  {
 		if (Arg1!=0)
 			arg1 = true;
 		Appodeal.setOnLoadedTriggerBoth(getAdsType(Arg0), arg1); 
-	}
-
-	public void appodeal_show_with_price_floor(double Arg){
-		Appodeal.showWithPriceFloor(RunnerActivity.CurrentActivity, getAdsType(Arg));
-	}
-
-	public String appodeal_is_loaded_with_price_floor(double Arg){
-		String arg = "false";
-		if (Appodeal.isLoadedWithPriceFloor(getAdsType(Arg)))
-			arg = "true";
-		return arg;	
 	}
 
 	public void appodeal_disable_network(String Arg){
