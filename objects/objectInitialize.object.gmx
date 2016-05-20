@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>appodeal_set_testing(true)
+            <string>appodeal_set_testing(false)
 appodeal_set_logging(true)
 appodeal_confirm(SKIPPABLE_VIDEO)
 appodeal_init("fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f", INTERSTITIAL | BANNER | SKIPPABLE_VIDEO | NON_SKIPPABLE_VIDEO)

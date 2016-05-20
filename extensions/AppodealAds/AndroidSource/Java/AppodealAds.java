@@ -110,6 +110,10 @@ public class AppodealAds extends Activity  {
 	public void appodeal_disable_location_permission_check(){
 		Appodeal.disableLocationPermissionCheck();
 	}
+	
+	public void appodeal_disable_write_external_storage_check(){
+		Appodeal.disableWriteExternalStoragePermissionCheck();
+	}
 
 	public void appodeal_confirm(double Arg){
 		Appodeal.confirm(getAdsType(Arg));
@@ -117,6 +121,25 @@ public class AppodealAds extends Activity  {
 	
 	public void appodeal_track_in_app_purchase(double Arg, String Arg1){
 		Appodeal.trackInAppPurchase(RunnerActivity.CurrentActivity, (int) Arg, Arg1);
+	}
+	
+	public void appodeal_set_custom_boolean_segment(String Arg, double Arg1){
+		boolean arg1 = false;
+		if (Arg1!=0)
+			arg1 = true;
+		Appodeal.setCustomSegment(Arg, arg1);
+	}
+	
+	public void appodeal_set_custom_double_segment(String Arg, double Arg1){
+		Appodeal.setCustomSegment(Arg, Arg1);
+	}
+	
+	public void appodeal_set_custom_int_segment(String Arg, double Arg1){
+		Appodeal.setCustomSegment(Arg, (int) Arg1);
+	}
+	
+	public void appodeal_set_custom_string_segment(String Arg, String Arg1){
+		Appodeal.setCustomSegment(Arg, Arg1);
 	}
 	
 //++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -146,7 +169,7 @@ public class AppodealAds extends Activity  {
 				createDsMap(Arg,"finished");
             		}
             		@Override
-            		public void onSkippableVideoClosed() {
+            		public void onSkippableVideoClosed(boolean finished) {
 				createDsMap(Arg,"closed");
             		}
 
@@ -177,7 +200,7 @@ public class AppodealAds extends Activity  {
 				createDsMap(Arg,"finished");
             		}
             		@Override
-            		public void onNonSkippableVideoClosed() {
+            		public void onNonSkippableVideoClosed(boolean finished) {
 				createDsMap(Arg,"closed");
             		}
 
@@ -208,7 +231,7 @@ public class AppodealAds extends Activity  {
 				createDsMap(Arg,"finished");
             		}
             		@Override
-            		public void onRewardedVideoClosed() {
+            		public void onRewardedVideoClosed(boolean finished) {
 				createDsMap(Arg,"closed");
             		}
 
@@ -256,7 +279,7 @@ public class AppodealAds extends Activity  {
 			String Arg = "appodeal_banner";
 
             		@Override
-            		public void onBannerLoaded() {
+            		public void onBannerLoaded(int height) {
 				createDsMap(Arg,"loaded");
             		}
             		@Override

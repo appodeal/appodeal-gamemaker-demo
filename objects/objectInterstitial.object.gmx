@@ -26,6 +26,10 @@
           <argument>
             <kind>1</kind>
             <string>appodeal_show_with_placement(INTERSTITIAL, "level_end")
+appodeal_set_custom_boolean_segment("level_end", true)
+appodeal_set_custom_double_segment("level_end", 32)
+appodeal_set_custom_int_segment("level_end", 32)
+appodeal_set_custom_string_segment("level_end", "new_level")
 </string>
           </argument>
         </arguments>
