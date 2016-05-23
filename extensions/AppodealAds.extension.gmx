@@ -24,13 +24,10 @@
         &lt;data android:scheme="package" /&gt;
       &lt;/intent-filter&gt;
     &lt;/receiver&gt;
-    &lt;meta-data android:name="com.appodeal.framework" android:value="unity" /&gt;
+    &lt;meta-data android:name="com.appodeal.framework" android:value="gm" /&gt;
     &lt;activity android:name="com.appodeal.ads.InterstitialActivity" android:configChanges="orientation|screenSize" android:theme="@android:style/Theme.Translucent.NoTitleBar" /&gt;
     &lt;activity android:name="com.appodeal.ads.VideoActivity" android:configChanges="orientation|screenSize" android:theme="@android:style/Theme.Translucent.NoTitleBar" /&gt;
-    &lt;activity android:name="com.appodeal.ads.LoaderActivity" android:configChanges="orientation|screenSize" android:theme="@android:style/Theme.Translucent.NoTitleBar" /&gt;
-    &lt;meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" /&gt;
-    &lt;activity android:name="com.google.android.gms.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:theme="@android:style/Theme.Translucent" /&gt;
-    &lt;activity android:name="com.chartboost.sdk.CBImpressionActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:hardwareAccelerated="true" android:excludeFromRecents="true" /&gt;
+    &lt;activity android:name="com.appodeal.ads.LoaderActivity" android:configChanges="orientation|screenSize" android:theme="@android:style/Theme.Translucent.NoTitleBar" /&gt;     &lt;activity android:name="com.chartboost.sdk.CBImpressionActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:hardwareAccelerated="true" android:excludeFromRecents="true" /&gt;
     &lt;activity android:name="com.applovin.adview.AppLovinInterstitialActivity" android:theme="@android:style/Theme.Translucent" /&gt;
     &lt;activity android:name="com.mopub.mobileads.MoPubActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:theme="@android:style/Theme.Translucent" /&gt;
     &lt;activity android:name="com.mopub.common.MoPubBrowser" android:configChanges="keyboardHidden|orientation|screenSize" /&gt;
@@ -75,6 +72,7 @@
     &lt;/receiver&gt;
     &lt;service android:enabled="true" android:name="com.inmobi.signals.activityrecognition.ActivityRecognitionManager" /&gt;
     &lt;activity android:name="com.flurry.android.FlurryFullscreenTakeoverActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" /&gt;</androidinject>
+  <gradleinject></gradleinject>
   <iosSystemFrameworks>
     <Framework weak="0">AdSupport.framework</Framework>
   </iosSystemFrameworks>
