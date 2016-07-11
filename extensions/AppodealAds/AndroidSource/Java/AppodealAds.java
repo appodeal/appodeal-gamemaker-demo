@@ -10,6 +10,11 @@ import com.yoyogames.runner.RunnerJNILib;
 import ${YYAndroidPackageName}.RunnerActivity;
 import com.appodeal.ads.*;
 
+import android.util.TypedValue;
+import android.content.res.Resources;
+import android.view.Gravity;
+import android.widget.FrameLayout;
+
 
 public class AppodealAds extends Activity  {
 
@@ -42,8 +47,52 @@ public class AppodealAds extends Activity  {
 	}
 
 	public void appodeal_show(double Arg){
-		Appodeal.show(RunnerActivity.CurrentActivity, getAdsType(Arg));
+		if(getAdsType(Arg) == 8000) {
+			RunnerActivity.CurrentActivity.runOnUiThread(new Runnable() {
+				public void run() {
+					FrameLayout.LayoutParams appodeaBannerParams = new FrameLayout.LayoutParams(convertDPToPixels(320), FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.TOP | Gravity.RIGHT);
+					RunnerActivity.CurrentActivity.addContentView(Appodeal.getBannerView(RunnerActivity.CurrentActivity), appodeaBannerParams);
+					Appodeal.setSmartBanners(false);
+					Appodeal.show(RunnerActivity.CurrentActivity, Appodeal.BANNER_VIEW);
+				}
+			});
+		} else if (getAdsType(Arg) == 8001) {
+			RunnerActivity.CurrentActivity.runOnUiThread(new Runnable() {
+				public void run() {
+					FrameLayout.LayoutParams appodeaBannerParams = new FrameLayout.LayoutParams(convertDPToPixels(320), FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT);
+					RunnerActivity.CurrentActivity.addContentView(Appodeal.getBannerView(RunnerActivity.CurrentActivity), appodeaBannerParams);
+					Appodeal.setSmartBanners(false);
+					Appodeal.show(RunnerActivity.CurrentActivity, Appodeal.BANNER_VIEW);
+				}
+			});
+		} else if (getAdsType(Arg) == 8002) {
+			RunnerActivity.CurrentActivity.runOnUiThread(new Runnable() {
+				public void run() {
+					FrameLayout.LayoutParams appodeaBannerParams = new FrameLayout.LayoutParams(convertDPToPixels(320), FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.RIGHT);
+					RunnerActivity.CurrentActivity.addContentView(Appodeal.getBannerView(RunnerActivity.CurrentActivity), appodeaBannerParams);
+					Appodeal.setSmartBanners(false);
+					Appodeal.show(RunnerActivity.CurrentActivity, Appodeal.BANNER_VIEW);
+				}
+			});
+		} else if (getAdsType(Arg) == 8003) {
+			RunnerActivity.CurrentActivity.runOnUiThread(new Runnable() {
+				public void run() {
+					FrameLayout.LayoutParams appodeaBannerParams = new FrameLayout.LayoutParams(convertDPToPixels(320), FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.LEFT);
+					RunnerActivity.CurrentActivity.addContentView(Appodeal.getBannerView(RunnerActivity.CurrentActivity), appodeaBannerParams);
+					Appodeal.setSmartBanners(false);
+					Appodeal.show(RunnerActivity.CurrentActivity, Appodeal.BANNER_VIEW);
+				}
+			});
+		} else {
+			Appodeal.show(RunnerActivity.CurrentActivity, getAdsType(Arg));
+		}
 	}
+	
+	public static int convertDPToPixels(float dp){
+        Resources r = RunnerActivity.CurrentActivity.getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+        return Math.round(px);
+    }
 	
 	public void appodeal_show_with_placement(double Arg, String placement){
 		Appodeal.show(RunnerActivity.CurrentActivity, getAdsType(Arg), placement);
@@ -279,7 +328,7 @@ public class AppodealAds extends Activity  {
 			String Arg = "appodeal_banner";
 
             		@Override
-            		public void onBannerLoaded(int height) {
+            		public void onBannerLoaded(int height, boolean isPrecache) {
 				createDsMap(Arg,"loaded");
             		}
             		@Override
