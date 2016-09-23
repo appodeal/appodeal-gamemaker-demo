@@ -8,7 +8,13 @@ import android.view.View;
 import android.widget.AbsoluteLayout;
 import com.yoyogames.runner.RunnerJNILib;
 import ${YYAndroidPackageName}.RunnerActivity;
-import com.appodeal.ads.*;
+
+import com.appodeal.ads.Appodeal;
+import com.appodeal.ads.InterstitialCallbacks;
+import com.appodeal.ads.SkippableVideoCallbacks;
+import com.appodeal.ads.NonSkippableVideoCallbacks;
+import com.appodeal.ads.RewardedVideoCallbacks;
+import com.appodeal.ads.BannerCallbacks;
 
 import android.util.TypedValue;
 import android.content.res.Resources;
@@ -38,6 +44,7 @@ public class AppodealAds extends Activity  {
 
 
 	public void appodeal_init(String Arg, double Arg1){
+		Appodeal.disableNetwork(RunnerActivity.CurrentActivity, "cheetah");
 		Appodeal.initialize(RunnerActivity.CurrentActivity, Arg, getAdsType(Arg1));
 		setSkippableVideoCallbacks();
 		setNonSkippableVideoCallbacks();
@@ -172,23 +179,23 @@ public class AppodealAds extends Activity  {
 		Appodeal.trackInAppPurchase(RunnerActivity.CurrentActivity, (int) Arg, Arg1);
 	}
 	
-	public void appodeal_set_custom_boolean_segment(String Arg, double Arg1){
+	public void appodeal_set_custom_boolean_rule(String Arg, double Arg1){
 		boolean arg1 = false;
 		if (Arg1!=0)
 			arg1 = true;
-		Appodeal.setCustomSegment(Arg, arg1);
+		Appodeal.setCustomRule(Arg, arg1);
 	}
 	
-	public void appodeal_set_custom_double_segment(String Arg, double Arg1){
-		Appodeal.setCustomSegment(Arg, Arg1);
+	public void appodeal_set_custom_double_rulet(String Arg, double Arg1){
+		Appodeal.setCustomRule(Arg, Arg1);
 	}
 	
-	public void appodeal_set_custom_int_segment(String Arg, double Arg1){
-		Appodeal.setCustomSegment(Arg, (int) Arg1);
+	public void appodeal_set_custom_int_rule(String Arg, double Arg1){
+		Appodeal.setCustomRule(Arg, (int) Arg1);
 	}
 	
-	public void appodeal_set_custom_string_segment(String Arg, String Arg1){
-		Appodeal.setCustomSegment(Arg, Arg1);
+	public void appodeal_set_custom_string_rule(String Arg, String Arg1){
+		Appodeal.setCustomRule(Arg, Arg1);
 	}
 	
 //++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -24,7 +24,7 @@
     <option_android_build_tools_version>23.0.3</option_android_build_tools_version>
     <option_android_build_version>0</option_android_build_version>
     <option_android_color_depth>0</option_android_color_depth>
-    <option_android_compile_sdk_version>23</option_android_compile_sdk_version>
+    <option_android_compile_sdk_version>22</option_android_compile_sdk_version>
     <option_android_display_name>appodeal-gamemaker-demo</option_android_display_name>
     <option_android_facebook_app_display_name></option_android_facebook_app_display_name>
     <option_android_facebook_appid></option_android_facebook_appid>
@@ -33,7 +33,7 @@
     <option_android_google_analytics>0</option_android_google_analytics>
     <option_android_google_analytics_enable>false</option_android_google_analytics_enable>
     <option_android_google_mobile_ads>0</option_android_google_mobile_ads>
-    <option_android_google_play>0</option_android_google_play>
+    <option_android_google_play>-1</option_android_google_play>
     <option_android_google_play_cloud_save_enable>0</option_android_google_play_cloud_save_enable>
     <option_android_google_play_id></option_android_google_play_id>
     <option_android_google_tracking_id></option_android_google_tracking_id>
@@ -49,7 +49,7 @@
     <option_android_interpolate>-1</option_android_interpolate>
     <option_android_licensing_enable>0</option_android_licensing_enable>
     <option_android_licensing_key></option_android_licensing_key>
-    <option_android_major_version>1</option_android_major_version>
+    <option_android_major_version>2</option_android_major_version>
     <option_android_min_sdk_version>11</option_android_min_sdk_version>
     <option_android_minor_version>0</option_android_minor_version>
     <option_android_mmedia_ads>0</option_android_mmedia_ads>
@@ -356,6 +356,7 @@
     <option_mac_copyright_info>(c)2012 CompanyName Ltd...</option_mac_copyright_info>
     <option_mac_create_app_store>-1</option_mac_create_app_store>
     <option_mac_display_name>appodeal-gamemaker-demo</option_mac_display_name>
+    <option_mac_enable_retina>0</option_mac_enable_retina>
     <option_mac_enable_steam>0</option_mac_enable_steam>
     <option_mac_fullscreen>0</option_mac_fullscreen>
     <option_mac_icon_png>Configs\Default\mac\icon512.png</option_mac_icon_png>
@@ -390,6 +391,7 @@
     <option_ps3_revision_version>0</option_ps3_revision_version>
     <option_ps3_scale>0</option_ps3_scale>
     <option_ps3_texture_page>2048</option_ps3_texture_page>
+    <option_ps3_version>1.00</option_ps3_version>
     <option_ps4_build_version>0</option_ps4_build_version>
     <option_ps4_displaycursor>0</option_ps4_displaycursor>
     <option_ps4_interpolate>-1</option_ps4_interpolate>
@@ -457,6 +459,20 @@
     <option_tizen_splash_png>Configs\Default\tizen\splash.png</option_tizen_splash_png>
     <option_tizen_texture_page>1024</option_tizen_texture_page>
     <option_tizen_usesplash>False</option_tizen_usesplash>
+    <option_tvos_app_id></option_tvos_app_id>
+    <option_tvos_build_version>0</option_tvos_build_version>
+    <option_tvos_certificate>&lt; Press refresh to fetch certificate list from Mac&gt;</option_tvos_certificate>
+    <option_tvos_display_name>appodeal-gamemaker-demo</option_tvos_display_name>
+    <option_tvos_icon_1280>Configs\Default\tvos\icons\icon1280.png</option_tvos_icon_1280>
+    <option_tvos_icon_400>Configs\Default\tvos\icons\icon400.png</option_tvos_icon_400>
+    <option_tvos_interpolate>-1</option_tvos_interpolate>
+    <option_tvos_major_version>1</option_tvos_major_version>
+    <option_tvos_minor_version>0</option_tvos_minor_version>
+    <option_tvos_scale>-1</option_tvos_scale>
+    <option_tvos_splash_png>Configs\Default\tvos\splash.png</option_tvos_splash_png>
+    <option_tvos_splash_time>0</option_tvos_splash_time>
+    <option_tvos_texture_page>2048</option_tvos_texture_page>
+    <option_use_fast_collision>False</option_use_fast_collision>
     <option_use_new_audio>True</option_use_new_audio>
     <option_variableerrors>False</option_variableerrors>
     <option_version>100</option_version>
