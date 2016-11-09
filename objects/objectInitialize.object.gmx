@@ -39,15 +39,15 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>appodeal_set_age(25)
-appodeal_set_birthday("17/06/1990")
-appodeal_set_email("hi@appodeal.com")
-appodeal_set_gender(FEMALE)
-appodeal_set_interests("reading, games, movies, snowboarding")
-appodeal_set_occupation(WORK)
-appodeal_set_relation(DATING)
-appodeal_set_alcohol(NEGATIVE)
-appodeal_set_smoking(NEGATIVE)
+            <string>appodeal_set_user_age(25)
+appodeal_set_user_birthday("17/06/1990")
+appodeal_set_user_email("hi@appodeal.com")
+appodeal_set_user_gender(GENDER_FEMALE)
+appodeal_set_user_interests("reading, games, movies, snowboarding")
+appodeal_set_user_occupation(OCCUPATION_WORK)
+appodeal_set_user_relationship(RELATIONSHIP_DATING)
+appodeal_set_user_alcohol_attitude(ALCOHOL_NEGATIVE)
+appodeal_set_user_smoking_attitude(SMOKING_NEGATIVE)
 appodeal_request_android_m_permissions()
 appodeal_init("fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f", SKIPPABLE_VIDEO | REWARDED_VIDEO | BANNER | INTERSTITIAL)
 </string>

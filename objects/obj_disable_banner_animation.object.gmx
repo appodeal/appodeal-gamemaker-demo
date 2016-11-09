@@ -40,9 +40,9 @@
           <argument>
             <kind>1</kind>
             <string>if(checked)
-    appodeal_set_banner_animation(false);
+    appodeal_set_banner_animated(false);
 else
-    appodeal_set_banner_animation(true);
+    appodeal_set_banner_animated(true);
 </string>
           </argument>
         </arguments>
