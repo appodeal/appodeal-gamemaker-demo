@@ -10,6 +10,7 @@ import com.yoyogames.runner.RunnerJNILib;
 import ${YYAndroidPackageName}.RunnerActivity;
 
 import com.appodeal.ads.Appodeal;
+import com.appodeal.ads.UserSettings;
 import com.appodeal.ads.InterstitialCallbacks;
 import com.appodeal.ads.SkippableVideoCallbacks;
 import com.appodeal.ads.NonSkippableVideoCallbacks;
@@ -25,6 +26,7 @@ import android.widget.FrameLayout;
 public class AppodealAds extends Activity  {
 
 	private static final int EVENT_OTHER_SOCIAL = 70;
+	private static UserSettings uSettings;
 
 	public int getAdsType(double Arg) {
 		return (int) Arg;
@@ -36,6 +38,12 @@ public class AppodealAds extends Activity  {
 		RunnerJNILib.DsMapAddString(dsmapindex,Arg0,Arg1 );			
 		RunnerJNILib.CreateAsynEventWithDSMap(dsmapindex,EVENT_OTHER_SOCIAL);
 
+	}
+	
+	private UserSettings getUserSettings(){
+		if(uSettings == null)
+			uSettings = Appodeal.getUserSettings(RunnerActivity.CurrentActivity);
+		return uSettings;
 	}
 
 //+++++++++++++++++++++++++++++++++++++++++++++
@@ -117,10 +125,10 @@ public class AppodealAds extends Activity  {
 	}
 	
 	public void appodeal_set_logging(double Arg){
-		boolean arg = false;
+		com.appodeal.ads.utils.Log.LogLevel arg = com.appodeal.ads.utils.Log.LogLevel.none;
 		if (Arg!=0)
-			arg = true;
-		Appodeal.setLogging(arg);
+			arg = com.appodeal.ads.utils.Log.LogLevel.verbose;
+		Appodeal.setLogLevel(arg);
 	}
 
 	public String appodeal_is_loaded(double Arg){
@@ -196,6 +204,127 @@ public class AppodealAds extends Activity  {
 	
 	public void appodeal_set_custom_string_rule(String Arg, String Arg1){
 		Appodeal.setCustomRule(Arg, Arg1);
+	}
+	
+	public void appodeal_request_android_m_permissions(){
+		Appodeal.requestAndroidMPermissions(RunnerActivity.CurrentActivity, null);
+	}
+	
+	public void appodeal_set_728x90_banners(double Arg){
+		boolean arg = false;
+		if(Arg!=0)
+			arg = true;
+		Appodeal.set728x90Banners(arg);
+	}
+	
+	public void appodeal_set_banner_animation(double Arg){
+		boolean arg = false;
+		if(Arg!=0)
+			arg = true;
+		Appodeal.setBannerAnimation(arg);
+	}
+	
+	public void appodeal_set_age(double Arg){
+		getUserSettings().setAge((int)Arg);
+	}
+	public void appodeal_set_birthday(String Arg){
+		getUserSettings().setBirthday(Arg);
+	}
+	public void appodeal_set_email(String Arg){
+		getUserSettings().setEmail(Arg);
+	}
+	public void appodeal_set_interests(String Arg){
+		getUserSettings().setInterests(Arg);
+	}
+	public void appodeal_set_user_id(String Arg){
+		getUserSettings().setUserId(Arg);
+	}
+	public void appodeal_set_gender(double Arg){
+		UserSettings.Gender appArg;
+		switch((int)Arg){
+			case 0:
+				appArg = UserSettings.Gender.FEMALE;
+				break;
+			case 1:
+				appArg = UserSettings.Gender.MALE;
+				break;
+			case 3:
+			default:
+				appArg = UserSettings.Gender.OTHER;
+		}
+		getUserSettings().setGender(appArg);
+	}
+	public void appodeal_set_occupation(double Arg){
+		UserSettings.Occupation appArg;
+		switch((int)Arg){
+			case 0:
+				appArg = UserSettings.Occupation.SCHOOL;
+				break;
+			case 1:
+				appArg = UserSettings.Occupation.UNIVERSITY;
+				break;
+			case 3:
+				appArg = UserSettings.Occupation.WORK;
+				break;
+			case 4:
+			default:
+				appArg = UserSettings.Occupation.OTHER;
+		}
+		getUserSettings().setOccupation(appArg);
+	}	
+	public void appodeal_set_relation(double Arg){
+		UserSettings.Relation appArg;
+		switch((int)Arg){
+			case 0:
+				appArg = UserSettings.Relation.SINGLE;
+				break;
+			case 1:
+				appArg = UserSettings.Relation.SEARCHING;
+				break;
+			case 3:
+				appArg = UserSettings.Relation.DATING;
+				break;
+			case 4:
+				appArg = UserSettings.Relation.ENGAGED;
+				break;
+			case 5:
+				appArg = UserSettings.Relation.MARRIED;
+				break;
+			case 6:
+			default:
+				appArg = UserSettings.Relation.OTHER;
+		}
+		getUserSettings().setRelation(appArg);
+	}
+	public void appodeal_set_alcohol(double Arg){
+		UserSettings.Alcohol appArg;
+		switch((int)Arg){
+			case 0:
+				appArg = UserSettings.Alcohol.NEGATIVE;
+				break;
+			case 1:
+				appArg = UserSettings.Alcohol.POSITIVE;
+				break;
+			case 3:
+			default:
+				appArg = UserSettings.Alcohol.NEUTRAL;
+		}
+		getUserSettings().setAlcohol(appArg);
+	}
+	public void appodeal_set_smoking(double Arg){
+		UserSettings.Smoking appArg;
+		switch((int)Arg){
+			case 0:
+				appArg = UserSettings.Smoking.NEGATIVE;
+				break;
+			case 1:
+				appArg = UserSettings.Smoking.POSITIVE;
+				break;
+			case 3:
+			default:
+				appArg = UserSettings.Smoking.NEUTRAL;
+		}
+		getUserSettings().setSmoking(appArg);
 	}
 	
 //++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -5,10 +5,24 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>obj_button</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="6" enumb="7">
+      <action>
+        <libid>1</libid>
+        <id>604</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_inherited</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -25,9 +39,16 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>appodeal_set_testing(false)
-appodeal_set_logging(true)
-appodeal_confirm(SKIPPABLE_VIDEO)
+            <string>appodeal_set_age(25)
+appodeal_set_birthday("17/06/1990")
+appodeal_set_email("hi@appodeal.com")
+appodeal_set_gender(FEMALE)
+appodeal_set_interests("reading, games, movies, snowboarding")
+appodeal_set_occupation(WORK)
+appodeal_set_relation(DATING)
+appodeal_set_alcohol(NEGATIVE)
+appodeal_set_smoking(NEGATIVE)
+appodeal_request_android_m_permissions()
 appodeal_init("fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f", SKIPPABLE_VIDEO | REWARDED_VIDEO | BANNER | INTERSTITIAL)
 </string>
           </argument>
