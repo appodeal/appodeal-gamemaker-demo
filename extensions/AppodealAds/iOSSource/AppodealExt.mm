@@ -8,32 +8,6 @@
 
 @implementation AppodealAds
 
-enum eAchievementMessages{
-    
-    e_achievement_our_info=1002,
-    e_achievement_friends_info=1003,
-    e_achievement_leaderboard_info=1004,
-    e_achievement_achievement_info=1005,
-    e_achievement_pic_loaded=1006,
-    e_achievement_challenge_completed=1007,
-    e_achievement_challenge_completed_by_remote=1008,
-    e_achievement_challenge_received=1009,
-    e_achievement_challenge_list_received=1010,
-    e_achievement_challenge_launched=1011,
-    e_achievement_player_info=1012,
-    e_achievement_purchase_info=1013
-};
-enum eAchievementShowTypes{
-    
-    e_achievement_show_ui=0,
-    e_achievement_show_profile,
-    e_achievement_show_leaderboard,
-    e_achievement_show_achievement,
-    e_achievement_show_bank,
-    e_achievement_show_friend_picker,
-    e_achievement_show_purchase_prompt
-};
-
 const int EVENT_OTHER_SOCIAL = 70;
 extern UIView *g_glView;
 
@@ -225,13 +199,32 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
 
 -(void)appodeal_show:(double)AdType
 {
-    [Appodeal showAd:[self appodealShowStyleConvert:((int) AdType)] rootViewController:[[UIApplication sharedApplication] keyWindow].rootViewController];
+    if(AdType == 8000) {
+        appodeal_bannerTopRight();
+    } else if(AdType == 8001) {
+        appodeal_bannerTopLeft();
+    } else if(AdType == 8002) {
+        appodeal_bannerBottomRight();
+    } else if(AdType == 8003) {
+        appodeal_bannerBottomLeft();
+    } else {
+        [Appodeal showAd:[self appodealShowStyleConvert:((int) AdType)] rootViewController:[[UIApplication sharedApplication] keyWindow].rootViewController];
+    }
 
 }
 -(void)appodeal_show_with_placement:(double)type placement:(char*)placement
 {
-	[Appodeal showAd:[self appodealShowStyleConvert:((int) type)] forPlacement:[NSString stringWithCString:placement encoding:NSUTF8StringEncoding] rootViewController:[[UIApplication sharedApplication] keyWindow].rootViewController];
-
+    if(AdType == 8000) {
+        appodeal_bannerTopRight();
+    } else if(AdType == 8001) {
+        appodeal_bannerTopLeft();
+    } else if(AdType == 8002) {
+        appodeal_bannerBottomRight();
+    } else if(AdType == 8003) {
+        appodeal_bannerBottomLeft();
+    } else {
+        [Appodeal showAd:[self appodealShowStyleConvert:((int) type)] forPlacement:[NSString stringWithCString:placement encoding:NSUTF8StringEncoding] rootViewController:[[UIApplication sharedApplication] keyWindow].rootViewController];
+    }
 }
 
 - (void)appodeal_hide
@@ -559,7 +552,6 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
-/*
 - (void)appodeal_bannerBottomRight:(double)width heigth:(double)heigth
 {
     CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
@@ -611,5 +603,5 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
     [bannerView loadAd];
 }
-*/
+
 @end
