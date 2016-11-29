@@ -52,7 +52,7 @@ appodeal_set_user_id("custom_user_id")
 appodeal_request_android_m_permissions()
 
 appodeal_set_auto_cache(INTERSTITIAL, false)
-appodeal_init("fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f", SKIPPABLE_VIDEO | REWARDED_VIDEO | BANNER | INTERSTITIAL)
+appodeal_init("fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f", REWARDED_VIDEO | BANNER | INTERSTITIAL)
 </string>
           </argument>
         </arguments>

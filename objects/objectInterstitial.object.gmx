@@ -133,6 +133,10 @@ if (type == "clicked"){
 if (type == "closed"){
   // code;
 }
+
+if(type == "finished"){
+  // code;
+}
 </string>
           </argument>
         </arguments>

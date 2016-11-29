@@ -29,7 +29,6 @@
     <object>objects\objectInitialize</object>
     <object>objects\objectBanner</object>
     <object>objects\objectInterstitial</object>
-    <object>objects\objectSkippableVideo</object>
     <object>objects\objectRewardedVideo</object>
     <object>objects\objectNonSkippableVideo</object>
     <object>objects\obj_button</object>

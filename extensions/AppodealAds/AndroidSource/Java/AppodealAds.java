@@ -14,7 +14,6 @@ import ${YYAndroidPackageName}.RunnerActivity;
 import com.appodeal.ads.Appodeal;
 import com.appodeal.ads.UserSettings;
 import com.appodeal.ads.InterstitialCallbacks;
-import com.appodeal.ads.SkippableVideoCallbacks;
 import com.appodeal.ads.NonSkippableVideoCallbacks;
 import com.appodeal.ads.RewardedVideoCallbacks;
 import com.appodeal.ads.BannerCallbacks;
@@ -36,18 +35,21 @@ public class AppodealAds extends Activity  {
         if((typeArg & Appodeal.INTERSTITIAL) > 0) {
             adType |= Appodeal.INTERSTITIAL;
         }
-        if((typeArg & Appodeal.SKIPPABLE_VIDEO) > 0) {
-            adType |= Appodeal.SKIPPABLE_VIDEO;
-        }
         if((typeArg & 256) > 0) {
             adType |= Appodeal.NON_SKIPPABLE_VIDEO;
         }
         if((typeArg & Appodeal.REWARDED_VIDEO) > 0) {
             adType |= Appodeal.REWARDED_VIDEO;
         }
-        if(((typeArg & Appodeal.BANNER) > 0) || ((typeArg & Appodeal.BANNER_BOTTOM) > 0) || ((typeArg & Appodeal.BANNER_TOP) > 0)) {
-            adType |= Appodeal.BANNER;
-        }
+        if((typeArg & Appodeal.BANNER) > 0) {
+              adType |= Appodeal.BANNER;
+          }
+		if((typeArg & Appodeal.BANNER_BOTTOM) > 0){
+			adType |= Appodeal.BANNER_BOTTOM;
+		}
+		if((typeArg & Appodeal.BANNER_TOP) > 0){
+			adType |= Appodeal.BANNER_TOP;
+		}
         return adType;
     }
 
@@ -68,7 +70,7 @@ public class AppodealAds extends Activity  {
 
     public void appodeal_init(String Arg, double Arg1){
         Appodeal.disableNetwork(RunnerActivity.CurrentActivity, "cheetah");
-        setSkippableVideoCallbacks();
+		Appodeal.disableNetwork(RunnerActivity.CurrentActivity, "facebook");
         setNonSkippableVideoCallbacks();
         setRewardedVideoCallbacks();
         setInterstitialCallbacks();
@@ -215,7 +217,7 @@ public class AppodealAds extends Activity  {
         boolean arg1 = false;
         if (Arg1!=0)
             arg1 = true;
-        Appodeal.setOnLoadedTriggerBoth(getAdsType(Arg0), arg1);
+        Appodeal.setTriggerOnLoadedOnPrecache(getAdsType(Arg0), arg1);
     }
 
     public void appodeal_disable_network(String Arg){
@@ -404,37 +406,6 @@ public class AppodealAds extends Activity  {
 // CALLBACKS
 //++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    public void setSkippableVideoCallbacks(){
-
-        Appodeal.setSkippableVideoCallbacks(new SkippableVideoCallbacks() {
-
-            String Arg = "appodeal_skippable_video";
-
-            @Override
-            public void onSkippableVideoLoaded() {
-                createDsMap(Arg,"loaded");
-            }
-            @Override
-            public void onSkippableVideoFailedToLoad() {
-                createDsMap(Arg,"failed");
-            }
-            @Override
-            public void onSkippableVideoShown() {
-                createDsMap(Arg,"shown");
-            }
-            @Override
-            public void onSkippableVideoFinished() {
-                createDsMap(Arg,"finished");
-            }
-            @Override
-            public void onSkippableVideoClosed(boolean finished) {
-                createDsMap(Arg,"closed");
-            }
-
-        });
-
-    }
-
     public void setNonSkippableVideoCallbacks(){
 
         Appodeal.setNonSkippableVideoCallbacks(new NonSkippableVideoCallbacks() {
@@ -524,6 +495,10 @@ public class AppodealAds extends Activity  {
             public void onInterstitialClosed() {
                 createDsMap(Arg,"closed");
             }
+			@Override
+			public void onInterstitialFinished(){
+				createDsMap(Arg, "finished");
+			}
 
         });
 
