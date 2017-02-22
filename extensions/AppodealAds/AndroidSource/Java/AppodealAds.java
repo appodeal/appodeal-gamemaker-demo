@@ -45,9 +45,15 @@ public class AppodealAds extends Activity  {
         if((typeArg & Appodeal.REWARDED_VIDEO) > 0) {
             adType |= Appodeal.REWARDED_VIDEO;
         }
-        if(((typeArg & Appodeal.BANNER) > 0) || ((typeArg & Appodeal.BANNER_BOTTOM) > 0) || ((typeArg & Appodeal.BANNER_TOP) > 0)) {
+        if((typeArg & Appodeal.BANNER) > 0) {
             adType |= Appodeal.BANNER;
         }
+		if((typeArg & Appodeal.BANNER_BOTTOM) > 0){
+			adType |= Appodeal.BANNER_BOTTOM;
+		}
+		if((typeArg & Appodeal.BANNER_TOP) > 0){
+			adType |= Appodeal.BANNER_TOP;
+		}
         return adType;
     }
 
@@ -168,7 +174,11 @@ public class AppodealAds extends Activity  {
     }
 
     public void appodeal_hide(double Arg){
-        Appodeal.hide(RunnerActivity.CurrentActivity, getAdsType(Arg));
+		int bannerType = getBannerType(Arg);
+		if( bannerType == 8001 || bannerType == 8001 || bannerType == 8002 || bannerType == 8003)
+			Appodeal.hide(RunnerActivity.CurrentActivity, Appodeal.BANNER);
+		else
+			Appodeal.hide(RunnerActivity.CurrentActivity, getAdsType(Arg));
     }
 
     public void appodeal_set_testing(double Arg){

@@ -67,7 +67,7 @@
 
 &lt;activity android:name="com.amazon.device.ads.AdActivity" android:configChanges="keyboardHidden|orientation|screenSize"/&gt;
 
-&lt;activity android:name="com.my.target.ads.MyTargetActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/&gt;
+&lt;activity android:name="com.my.target.ads.MyTargetActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:hardwareAccelerated="true"/&gt;
 
 &lt;activity android:name="org.nexage.sourcekit.vast.activity.VASTActivity"
       android:theme="@android:style/Theme.NoTitleBar.Fullscreen" /&gt;
@@ -132,7 +132,7 @@
 		&lt;action android:name="com.yandex.metrica.IMetricaService" /&gt;
 		&lt;data android:scheme="metrica" /&gt;
 	&lt;/intent-filter&gt;
-	&lt;meta-data android:name="metrica:api:level" android:value="44" /&gt;
+	&lt;meta-data android:name="metrica:api:level" android:value="52" /&gt;
 &lt;/service&gt;
 &lt;receiver android:name="com.yandex.metrica.MetricaEventHandler"
       android:enabled="true" android:exported="true"&gt;

@@ -8,6 +8,32 @@
 
 @implementation AppodealAds
 
+enum eAchievementMessages{
+    
+    e_achievement_our_info=1002,
+    e_achievement_friends_info=1003,
+    e_achievement_leaderboard_info=1004,
+    e_achievement_achievement_info=1005,
+    e_achievement_pic_loaded=1006,
+    e_achievement_challenge_completed=1007,
+    e_achievement_challenge_completed_by_remote=1008,
+    e_achievement_challenge_received=1009,
+    e_achievement_challenge_list_received=1010,
+    e_achievement_challenge_launched=1011,
+    e_achievement_player_info=1012,
+    e_achievement_purchase_info=1013
+};
+enum eAchievementShowTypes{
+    
+    e_achievement_show_ui=0,
+    e_achievement_show_profile,
+    e_achievement_show_leaderboard,
+    e_achievement_show_achievement,
+    e_achievement_show_bank,
+    e_achievement_show_friend_picker,
+    e_achievement_show_purchase_prompt
+};
+
 const int EVENT_OTHER_SOCIAL = 70;
 extern UIView *g_glView;
 
@@ -80,12 +106,20 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
 
 - (void)appodeal_init:(char*)appKey Arg2:(double)AdTypes
 {
-    [Appodeal initializeWithApiKey:[NSString stringWithCString:appKey encoding:NSUTF8StringEncoding] types:[self appodealAdTypeConvert: ((int) AdTypes)]];
-    [Appodeal setInterstitialDelegate:self];
-    [Appodeal setBannerDelegate:self];
-    [Appodeal setSkippableVideoDelegate:self];
-    [Appodeal setRewardedVideoDelegate:self];
-    [Appodeal setNonSkippableVideoDelegate:self];
+    if(![Appodeal isInitalized]) {
+        [Appodeal setFramework:APDFrameworkGameMaker];
+        [Appodeal initializeWithApiKey:[NSString stringWithCString:appKey encoding:NSUTF8StringEncoding] types:[self appodealAdTypeConvert: ((int) AdTypes)]];
+        [Appodeal setInterstitialDelegate:self];
+        [Appodeal setBannerDelegate:self];
+        [Appodeal setSkippableVideoDelegate:self];
+        [Appodeal setRewardedVideoDelegate:self];
+        [Appodeal setNonSkippableVideoDelegate:self];
+    }
+}
+
+- (void)appodeal_track_in_app_purchase:(double)amount currency:(char *)currency
+{
+    [[APDSdk sharedSdk] trackInAppPurchase:[NSNumber numberWithInt:amount] currency:[NSString stringWithUTF8String:currency]];
 }
 
 - (void)appodeal_set_testing:(double)boolean
@@ -94,6 +128,15 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
         [Appodeal setTestingEnabled:NO];
     else
         [Appodeal setTestingEnabled:YES];
+    
+}
+
+- (void)appodeal_set_logging:(double)boolean
+{
+    if (boolean == 0)
+        [Appodeal setDebugEnabled:NO];
+    else
+        [Appodeal setDebugEnabled:YES];
     
 }
 
@@ -121,6 +164,20 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
         [Appodeal setBannerBackgroundVisible:YES];
 }
 
+- (void)appodeal_disable_network:(char *)network
+{
+    [Appodeal disableNetworkForAdType:AppodealAdTypeBanner name:[NSString stringWithCString:network encoding:NSUTF8StringEncoding]];
+    [Appodeal disableNetworkForAdType:AppodealAdTypeInterstitial name:[NSString stringWithCString:network encoding:NSUTF8StringEncoding]];
+    [Appodeal disableNetworkForAdType:AppodealAdTypeSkippableVideo name:[NSString stringWithCString:network encoding:NSUTF8StringEncoding]];
+    [Appodeal disableNetworkForAdType:AppodealAdTypeNonSkippableVideo name:[NSString stringWithCString:network encoding:NSUTF8StringEncoding]];
+    [Appodeal disableNetworkForAdType:AppodealAdTypeRewardedVideo name:[NSString stringWithCString:network encoding:NSUTF8StringEncoding]];
+}
+
+- (void)appodeal_disable_network_for_adtype:(double)type network:(char *)network
+{
+    [Appodeal disableNetworkForAdType:[self appodealAdTypeConvert: ((int) type)] name:[NSString stringWithCString:network encoding:NSUTF8StringEncoding]];
+}
+
 - (void)appodeal_set_custom_double_segment:(char*)name Arg2:(double)value
 {
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -144,9 +201,7 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
                               [NSString stringWithCString:name encoding:NSUTF8StringEncoding], YES,
                               nil];
         [Appodeal setCustomRule:dict];
-        
     }
-    
 }
 
 - (void)appodeal_set_custom_int_segment:(char*)name Arg2:(double)value
@@ -187,9 +242,13 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
     [Appodeal setRewardedVideoDelegate:self];
 }
 
-- (void) appodeal_is_loaded:(double)type
+- (NSString *)appodeal_is_loaded:(double)type
 {
-    [Appodeal isReadyForShowWithStyle:[self appodealShowStyleConvert:((int) type)]];
+    if([Appodeal isReadyForShowWithStyle:[self appodealShowStyleConvert:((int) type)]]) {
+        return @"true";
+    } else {
+        return @"false";
+    }
 }
 
 - (void)appodeal_confirm:(double)type
@@ -199,32 +258,12 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
 
 -(void)appodeal_show:(double)AdType
 {
-    if(AdType == 8000) {
-        appodeal_bannerTopRight();
-    } else if(AdType == 8001) {
-        appodeal_bannerTopLeft();
-    } else if(AdType == 8002) {
-        appodeal_bannerBottomRight();
-    } else if(AdType == 8003) {
-        appodeal_bannerBottomLeft();
-    } else {
-        [Appodeal showAd:[self appodealShowStyleConvert:((int) AdType)] rootViewController:[[UIApplication sharedApplication] keyWindow].rootViewController];
-    }
-
+    [Appodeal showAd:[self appodealShowStyleConvert:((int) AdType)] rootViewController:[[UIApplication sharedApplication] keyWindow].rootViewController];
 }
+
 -(void)appodeal_show_with_placement:(double)type placement:(char*)placement
 {
-    if(AdType == 8000) {
-        appodeal_bannerTopRight();
-    } else if(AdType == 8001) {
-        appodeal_bannerTopLeft();
-    } else if(AdType == 8002) {
-        appodeal_bannerBottomRight();
-    } else if(AdType == 8003) {
-        appodeal_bannerBottomLeft();
-    } else {
-        [Appodeal showAd:[self appodealShowStyleConvert:((int) type)] forPlacement:[NSString stringWithCString:placement encoding:NSUTF8StringEncoding] rootViewController:[[UIApplication sharedApplication] keyWindow].rootViewController];
-    }
+    [Appodeal showAd:[self appodealShowStyleConvert:((int) type)] forPlacement:[NSString stringWithCString:placement encoding:NSUTF8StringEncoding] rootViewController:[[UIApplication sharedApplication] keyWindow].rootViewController];
 }
 
 - (void)appodeal_hide
@@ -240,10 +279,9 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
 - (void) appodeal_set_auto_cache:(double)autoCache type:(double)type
 {
     if (autoCache == 0)
-         [Appodeal setAutocache:NO types:[self appodealAdTypeConvert:((int) type)]];
+        [Appodeal setAutocache:NO types:[self appodealAdTypeConvert:((int) type)]];
     else
-         [Appodeal setAutocache:YES types:[self appodealAdTypeConvert:((int) type)]];
-   
+        [Appodeal setAutocache:YES types:[self appodealAdTypeConvert:((int) type)]];
 }
 
 - (void) appodeal_disable_location_permission_check
@@ -263,12 +301,16 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
 
 - (void) appodeal_set_user_birthday:(char*)type
 {
-    
+    NSString *dateStr = [NSString stringWithCString:type encoding:NSUTF8StringEncoding];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    NSDate *date = [dateFormat dateFromString:dateStr];
+    [Appodeal setUserBirthday:date];
 }
 
 - (void) appodeal_set_user_age:(double)type
 {
-    
+    [Appodeal setUserAge:(int)type];
 }
 
 - (void) appodeal_set_user_gender:(double)type
@@ -293,11 +335,11 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
     int intType = (int) type;
     if (intType == 0)
     {
-       [Appodeal setUserOccupation:AppodealUserOccupationOther];
+        [Appodeal setUserOccupation:AppodealUserOccupationOther];
     }
     if (intType == 1)
     {
-       [Appodeal setUserOccupation:AppodealUserOccupationWork];
+        [Appodeal setUserOccupation:AppodealUserOccupationWork];
     }
     if (intType == 2)
     {
@@ -368,7 +410,7 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
     }
     if (intType == 2)
     {
-         [Appodeal setUserAlcoholAttitude:AppodealUserAlcoholAttitudePositive];
+        [Appodeal setUserAlcoholAttitude:AppodealUserAlcoholAttitudePositive];
     }
 }
 
@@ -552,56 +594,57 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
-- (void)appodeal_bannerBottomRight:(double)width heigth:(double)heigth
-{
-    CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
-    AppodealBannerView *bannerView = [[AppodealBannerView alloc] initWithSize:CGSizeMake([[NSNumber numberWithDouble:width] floatValue], [[NSNumber numberWithDouble:heigth] floatValue]) rootViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
-    
-    [bannerView setFrame:CGRectMake(viewSize.width - bannerView.frame.size.width, viewSize.height - bannerView.frame.size.height, bannerView.frame.size.width, bannerView.frame.size.height)];
-    bannerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
-    
-    bannerView.delegate = self;
-    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
-    [bannerView loadAd];
-}
-
-- (void)appodeal_bannerBottomLeft:(double)width heigth:(double)heigth
-{
-    CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
-    AppodealBannerView *bannerView = [[AppodealBannerView alloc] initWithSize:CGSizeMake([[NSNumber numberWithDouble:width] floatValue], [[NSNumber numberWithDouble:heigth] floatValue]) rootViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
-    
-    [bannerView setFrame:CGRectMake(0, viewSize.height - bannerView.frame.size.height, bannerView.frame.size.width, bannerView.frame.size.height)];
-    bannerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
-    
-    bannerView.delegate = self;
-    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
-    [bannerView loadAd];
-}
-
-- (void)appodeal_bannerTopRight:(double)width heigth:(double)heigth
-{
-    CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
-    AppodealBannerView *bannerView = [[AppodealBannerView alloc] initWithSize:CGSizeMake([[NSNumber numberWithDouble:width] floatValue], [[NSNumber numberWithDouble:heigth] floatValue]) rootViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
-    
-    [bannerView setFrame:CGRectMake(viewSize.width - bannerView.frame.size.width, 0, bannerView.frame.size.width, bannerView.frame.size.height)];
-    bannerView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
-    
-    bannerView.delegate = self;
-    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
-    [bannerView loadAd];
-}
-
-- (void)appodeal_bannerTopLeft:(double)width heigth:(double)heigth
-{
-    CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
-    AppodealBannerView *bannerView = [[AppodealBannerView alloc] initWithSize:CGSizeMake([[NSNumber numberWithDouble:width] floatValue], [[NSNumber numberWithDouble:heigth] floatValue]) rootViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
-    
-    [bannerView setFrame:CGRectMake(0, 0, bannerView.frame.size.width, bannerView.frame.size.height)];
-    bannerView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
-    
-    bannerView.delegate = self;
-    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
-    [bannerView loadAd];
-}
-
+/*
+ - (void)appodeal_bannerBottomRight:(double)width heigth:(double)heigth
+ {
+ CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
+ AppodealBannerView *bannerView = [[AppodealBannerView alloc] initWithSize:CGSizeMake([[NSNumber numberWithDouble:width] floatValue], [[NSNumber numberWithDouble:heigth] floatValue]) rootViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
+ 
+ [bannerView setFrame:CGRectMake(viewSize.width - bannerView.frame.size.width, viewSize.height - bannerView.frame.size.height, bannerView.frame.size.width, bannerView.frame.size.height)];
+ bannerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+ 
+ bannerView.delegate = self;
+ [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
+ [bannerView loadAd];
+ }
+ 
+ - (void)appodeal_bannerBottomLeft:(double)width heigth:(double)heigth
+ {
+ CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
+ AppodealBannerView *bannerView = [[AppodealBannerView alloc] initWithSize:CGSizeMake([[NSNumber numberWithDouble:width] floatValue], [[NSNumber numberWithDouble:heigth] floatValue]) rootViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
+ 
+ [bannerView setFrame:CGRectMake(0, viewSize.height - bannerView.frame.size.height, bannerView.frame.size.width, bannerView.frame.size.height)];
+ bannerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
+ 
+ bannerView.delegate = self;
+ [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
+ [bannerView loadAd];
+ }
+ 
+ - (void)appodeal_bannerTopRight:(double)width heigth:(double)heigth
+ {
+ CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
+ AppodealBannerView *bannerView = [[AppodealBannerView alloc] initWithSize:CGSizeMake([[NSNumber numberWithDouble:width] floatValue], [[NSNumber numberWithDouble:heigth] floatValue]) rootViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
+ 
+ [bannerView setFrame:CGRectMake(viewSize.width - bannerView.frame.size.width, 0, bannerView.frame.size.width, bannerView.frame.size.height)];
+ bannerView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
+ 
+ bannerView.delegate = self;
+ [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
+ [bannerView loadAd];
+ }
+ 
+ - (void)appodeal_bannerTopLeft:(double)width heigth:(double)heigth
+ {
+ CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
+ AppodealBannerView *bannerView = [[AppodealBannerView alloc] initWithSize:CGSizeMake([[NSNumber numberWithDouble:width] floatValue], [[NSNumber numberWithDouble:heigth] floatValue]) rootViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
+ 
+ [bannerView setFrame:CGRectMake(0, 0, bannerView.frame.size.width, bannerView.frame.size.height)];
+ bannerView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
+ 
+ bannerView.delegate = self;
+ [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
+ [bannerView loadAd];
+ }
+ */
 @end
