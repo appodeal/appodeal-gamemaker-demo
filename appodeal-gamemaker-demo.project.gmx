@@ -14,6 +14,14 @@
     <sprite>sprites\buttonShowSkippableVideo</sprite>
     <sprite>sprites\buttonShowRewardedVideo</sprite>
     <sprite>sprites\buttonShowNonSkippableVideo</sprite>
+    <sprite>sprites\spr_testing</sprite>
+    <sprite>sprites\spr_logging</sprite>
+    <sprite>sprites\spr_disable_big_banners</sprite>
+    <sprite>sprites\spr_banner_animation</sprite>
+    <sprite>sprites\spr_confirm_skippable</sprite>
+    <sprite>sprites\spr_notofication</sprite>
+    <sprite>sprites\spr_disable_smart</sprite>
+    <sprite>sprites\spr_enable_background</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -24,6 +32,16 @@
     <object>objects\objectSkippableVideo</object>
     <object>objects\objectRewardedVideo</object>
     <object>objects\objectNonSkippableVideo</object>
+    <object>objects\obj_button</object>
+    <object>objects\obj_checkbox</object>
+    <object>objects\obj_testing</object>
+    <object>objects\obj_logging</object>
+    <object>objects\obj_disable_big_banners</object>
+    <object>objects\obj_disable_banner_animation</object>
+    <object>objects\obj_confirm_skippable</object>
+    <object>objects\obj_notification</object>
+    <object>objects\obj_disable_smart</object>
+    <object>objects\obj_enable_background</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\appodeal_demo_room</room>
