@@ -3,7 +3,7 @@
 #include <UIKit/UIKit.h>
 #include <Foundation/Foundation.h>
 
-@interface AppodealAds: NSObject <AppodealInterstitialDelegate, AppodealBannerDelegate, AppodealSkippableVideoDelegate, AppodealRewardedVideoDelegate, AppodealBannerViewDelegate, AppodealNonSkippableVideoDelegate>
+@interface AppodealAds: NSObject <AppodealInterstitialDelegate, AppodealBannerDelegate, AppodealSkippableVideoDelegate, AppodealRewardedVideoDelegate, APDBannerViewDelegate, AppodealNonSkippableVideoDelegate>
 
 @property (nonatomic, strong) UIView* myView;
 @property (nonatomic) NSInteger adViewType;

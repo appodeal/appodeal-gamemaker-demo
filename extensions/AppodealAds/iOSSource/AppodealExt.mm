@@ -46,34 +46,30 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
 
 - (AppodealShowStyle)appodealShowStyleConvert:(int) showType
 {
-    bool isInterstitial = (showType & 1) > 0;
-    bool isVideo = (showType & 2) > 0;
-    
-    
-    if (isInterstitial && isVideo) {
-        return AppodealShowStyleVideoOrInterstitial;
-    } else if (isVideo) {
-        return AppodealShowStyleSkippableVideo;
-    } else if (isInterstitial) {
+    if (showType == 1) {
         return AppodealShowStyleInterstitial;
     }
     
-    if ((showType & 16) > 0) {
+    if (showType == 2) {
+        return AppodealShowStyleSkippableVideo;
+    }
+    
+    if (showType == 16) {
         return AppodealShowStyleBannerTop;
     }
     
-    if ((showType & 8) > 0) {
+    if (showType == 8) {
         return AppodealShowStyleBannerBottom;
     }
     
-    if ((showType & 128) > 0) {
+    if (showType == 128) {
         return AppodealShowStyleRewardedVideo;
     }
     
-    if ((showType & 256) > 0) {
+    if (showType == 256) {
         return AppodealShowStyleNonSkippableVideo;
     }
-    
+   
     return (AppodealShowStyle) 0;
 }
 
@@ -258,16 +254,41 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
 
 -(void)appodeal_show:(double)AdType
 {
-    [Appodeal showAd:[self appodealShowStyleConvert:((int) AdType)] rootViewController:[[UIApplication sharedApplication] keyWindow].rootViewController];
+    if((int)AdType == 8000) {
+        [self appodeal_bannerTopRight];
+    } else if((int)AdType == 8001) {
+        [self appodeal_bannerTopLeft];
+    } else if((int)AdType == 8002) {
+        [self appodeal_bannerBottomRight];
+    } else if((int)AdType == 8003) {
+        [self appodeal_bannerBottomLeft];
+    } else {
+        [Appodeal showAd:[self appodealShowStyleConvert:((int) AdType)] rootViewController:[[UIApplication sharedApplication] keyWindow].rootViewController];
+    }
 }
 
 -(void)appodeal_show_with_placement:(double)type placement:(char*)placement
 {
-    [Appodeal showAd:[self appodealShowStyleConvert:((int) type)] forPlacement:[NSString stringWithCString:placement encoding:NSUTF8StringEncoding] rootViewController:[[UIApplication sharedApplication] keyWindow].rootViewController];
+    if((int)type == 8000) {
+        [self appodeal_bannerTopRightWithPlacement:[NSString stringWithCString:placement encoding:NSUTF8StringEncoding]];
+    } else if((int)type == 8001) {
+        [self appodeal_bannerTopLeftWithPlacement:[NSString stringWithCString:placement encoding:NSUTF8StringEncoding]];
+    } else if((int)type == 8002) {
+        [self appodeal_bannerBottomRightWithPlacement:[NSString stringWithCString:placement encoding:NSUTF8StringEncoding]];
+    } else if((int)type == 8003) {
+        [self appodeal_bannerBottomLeftWithPlacement:[NSString stringWithCString:placement encoding:NSUTF8StringEncoding]];
+    } else {
+        [Appodeal showAd:[self appodealShowStyleConvert:((int) type)] forPlacement:[NSString stringWithCString:placement encoding:NSUTF8StringEncoding] rootViewController:[[UIApplication sharedApplication] keyWindow].rootViewController];
+    }
 }
 
 - (void)appodeal_hide
 {
+    for (UIView * view in [[UIApplication sharedApplication] keyWindow].rootViewController.view.subviews) {
+        if ([view isKindOfClass:[APDBannerView class]]) {
+            [view removeFromSuperview];
+        }
+    }
     [Appodeal hideBanner];
 }
 
@@ -286,7 +307,7 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
 
 - (void) appodeal_disable_location_permission_check
 {
-    [Appodeal disableLocationPermissionCheck];
+    [Appodeal setLocationTracking:NO];
 }
 
 - (void) appodeal_set_user_id:(char*)userId
@@ -434,6 +455,12 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
+- (void)bannerDidRefresh {
+    int my_map_index = CreateDsMap( 0 );
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"refreshed");
+    CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
+}
+
 - (void)bannerDidClick
 {
     int my_map_index = CreateDsMap( 0 );
@@ -447,6 +474,37 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
     F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"shown");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
+
+- (void)bannerViewDidLoadAd:(APDBannerView *)bannerView {
+    int my_map_index = CreateDsMap( 0 );
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"loaded");
+    CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
+}
+
+- (void)precacheBannerViewDidLoadAd:(APDBannerView *)precacheBannerView {
+    int my_map_index = CreateDsMap( 0 );
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"loaded");
+    CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
+}
+
+- (void)bannerViewDidRefresh:(APDBannerView *)bannerView {
+    int my_map_index = CreateDsMap( 0 );
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"refreshed");
+    CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
+}
+
+- (void)bannerView:(APDBannerView *)bannerView didFailToLoadAdWithError:(NSError *)error {
+    int my_map_index = CreateDsMap( 0 );
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"failed");
+    CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
+}
+
+- (void)bannerViewDidReceiveTapAction:(APDBannerView *)bannerView {
+    int my_map_index = CreateDsMap( 0 );
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"clicked");
+    CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
+}
+
 
 // interstitial
 - (void)interstitialDidLoadAd
@@ -594,57 +652,108 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
-/*
- - (void)appodeal_bannerBottomRight:(double)width heigth:(double)heigth
- {
- CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
- AppodealBannerView *bannerView = [[AppodealBannerView alloc] initWithSize:CGSizeMake([[NSNumber numberWithDouble:width] floatValue], [[NSNumber numberWithDouble:heigth] floatValue]) rootViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
- 
- [bannerView setFrame:CGRectMake(viewSize.width - bannerView.frame.size.width, viewSize.height - bannerView.frame.size.height, bannerView.frame.size.width, bannerView.frame.size.height)];
- bannerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
- 
- bannerView.delegate = self;
- [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
- [bannerView loadAd];
- }
- 
- - (void)appodeal_bannerBottomLeft:(double)width heigth:(double)heigth
- {
- CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
- AppodealBannerView *bannerView = [[AppodealBannerView alloc] initWithSize:CGSizeMake([[NSNumber numberWithDouble:width] floatValue], [[NSNumber numberWithDouble:heigth] floatValue]) rootViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
- 
- [bannerView setFrame:CGRectMake(0, viewSize.height - bannerView.frame.size.height, bannerView.frame.size.width, bannerView.frame.size.height)];
- bannerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
- 
- bannerView.delegate = self;
- [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
- [bannerView loadAd];
- }
- 
- - (void)appodeal_bannerTopRight:(double)width heigth:(double)heigth
- {
- CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
- AppodealBannerView *bannerView = [[AppodealBannerView alloc] initWithSize:CGSizeMake([[NSNumber numberWithDouble:width] floatValue], [[NSNumber numberWithDouble:heigth] floatValue]) rootViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
- 
- [bannerView setFrame:CGRectMake(viewSize.width - bannerView.frame.size.width, 0, bannerView.frame.size.width, bannerView.frame.size.height)];
- bannerView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
- 
- bannerView.delegate = self;
- [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
- [bannerView loadAd];
- }
- 
- - (void)appodeal_bannerTopLeft:(double)width heigth:(double)heigth
- {
- CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
- AppodealBannerView *bannerView = [[AppodealBannerView alloc] initWithSize:CGSizeMake([[NSNumber numberWithDouble:width] floatValue], [[NSNumber numberWithDouble:heigth] floatValue]) rootViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
- 
- [bannerView setFrame:CGRectMake(0, 0, bannerView.frame.size.width, bannerView.frame.size.height)];
- bannerView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
- 
- bannerView.delegate = self;
- [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
- [bannerView loadAd];
- }
- */
+
+- (void)appodeal_bannerBottomRight
+{
+    CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
+    APDBannerView *bannerView = [[APDBannerView alloc] initWithSize:kAPDAdSize320x50];
+    
+    [bannerView setFrame:CGRectMake(viewSize.width - bannerView.frame.size.width, viewSize.height - bannerView.frame.size.height, bannerView.frame.size.width, bannerView.frame.size.height)];
+    bannerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+    bannerView.rootViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    bannerView.delegate = self;
+    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
+    [bannerView loadAd];
+}
+
+- (void)appodeal_bannerBottomLeft
+{
+    CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
+    APDBannerView *bannerView = [[APDBannerView alloc] initWithSize:kAPDAdSize320x50];
+    
+    [bannerView setFrame:CGRectMake(0, viewSize.height - bannerView.frame.size.height, bannerView.frame.size.width, bannerView.frame.size.height)];
+    bannerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
+    bannerView.rootViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    bannerView.delegate = self;
+    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
+    [bannerView loadAd];
+}
+
+- (void)appodeal_bannerTopRight
+{
+    CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
+    APDBannerView *bannerView = [[APDBannerView alloc] initWithSize:kAPDAdSize320x50];
+    
+    [bannerView setFrame:CGRectMake(viewSize.width - bannerView.frame.size.width, 0, bannerView.frame.size.width, bannerView.frame.size.height)];
+    bannerView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
+    bannerView.rootViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    bannerView.delegate = self;
+    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
+    [bannerView loadAd];
+}
+
+- (void)appodeal_bannerTopLeft
+{
+    APDBannerView *bannerView = [[APDBannerView alloc] initWithSize:kAPDAdSize320x50];
+    [bannerView setFrame:CGRectMake(0, 0, bannerView.frame.size.width, bannerView.frame.size.height)];
+    bannerView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
+    bannerView.rootViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    bannerView.delegate = self;
+    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
+    [bannerView loadAd];
+}
+
+- (void)appodeal_bannerBottomRightWithPlacement:(NSString*)placement
+{
+    CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
+    APDBannerView *bannerView = [[APDBannerView alloc] initWithSize:kAPDAdSize320x50];
+    
+    [bannerView setFrame:CGRectMake(viewSize.width - bannerView.frame.size.width, viewSize.height - bannerView.frame.size.height, bannerView.frame.size.width, bannerView.frame.size.height)];
+    bannerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+    bannerView.placement = placement;
+    bannerView.rootViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    bannerView.delegate = self;
+    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
+    [bannerView loadAd];
+}
+
+- (void)appodeal_bannerBottomLeftWithPlacement:(NSString*)placement
+{
+    CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
+    APDBannerView *bannerView = [[APDBannerView alloc] initWithSize:kAPDAdSize320x50];
+    [bannerView setFrame:CGRectMake(0, viewSize.height - bannerView.frame.size.height, bannerView.frame.size.width, bannerView.frame.size.height)];
+    bannerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
+    bannerView.placement = placement;
+    bannerView.rootViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    bannerView.delegate = self;
+    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
+    [bannerView loadAd];
+}
+
+- (void)appodeal_bannerTopRightWithPlacement:(NSString*)placement
+{
+    CGSize viewSize = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject].frame.size;
+    APDBannerView *bannerView = [[APDBannerView alloc] initWithSize:kAPDAdSize320x50];
+    
+    [bannerView setFrame:CGRectMake(viewSize.width - bannerView.frame.size.width, 0, bannerView.frame.size.width, bannerView.frame.size.height)];
+    bannerView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
+    bannerView.placement = placement;
+    bannerView.rootViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    bannerView.delegate = self;
+    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
+    [bannerView loadAd];
+}
+
+- (void)appodeal_bannerTopLeftWithPlacement:(NSString*)placement
+{
+    APDBannerView *bannerView = [[APDBannerView alloc] initWithSize:kAPDAdSize320x50];
+    [bannerView setFrame:CGRectMake(0, 0, bannerView.frame.size.width, bannerView.frame.size.height)];
+    bannerView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
+    bannerView.placement = placement;
+    bannerView.rootViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    bannerView.delegate = self;
+    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] addSubview:bannerView];
+    [bannerView loadAd];
+}
+
 @end
