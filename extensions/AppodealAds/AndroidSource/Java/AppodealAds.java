@@ -14,7 +14,6 @@ import ${YYAndroidPackageName}.RunnerActivity;
 import com.appodeal.ads.Appodeal;
 import com.appodeal.ads.UserSettings;
 import com.appodeal.ads.InterstitialCallbacks;
-import com.appodeal.ads.SkippableVideoCallbacks;
 import com.appodeal.ads.NonSkippableVideoCallbacks;
 import com.appodeal.ads.RewardedVideoCallbacks;
 import com.appodeal.ads.BannerCallbacks;
@@ -35,9 +34,6 @@ public class AppodealAds extends Activity  {
         int adType = 0;
         if((typeArg & Appodeal.INTERSTITIAL) > 0) {
             adType |= Appodeal.INTERSTITIAL;
-        }
-        if((typeArg & Appodeal.SKIPPABLE_VIDEO) > 0) {
-            adType |= Appodeal.SKIPPABLE_VIDEO;
         }
         if((typeArg & 256) > 0) {
             adType |= Appodeal.NON_SKIPPABLE_VIDEO;
@@ -73,8 +69,6 @@ public class AppodealAds extends Activity  {
 
 
     public void appodeal_init(String Arg, double Arg1){
-        Appodeal.disableNetwork(RunnerActivity.CurrentActivity, "cheetah");
-        setSkippableVideoCallbacks();
         setNonSkippableVideoCallbacks();
         setRewardedVideoCallbacks();
         setInterstitialCallbacks();
@@ -82,7 +76,7 @@ public class AppodealAds extends Activity  {
         Appodeal.initialize(RunnerActivity.CurrentActivity, Arg, getAdsType(Arg1));
     }
 
-    public void appodeal_show(double Arg){
+    public void appodeal_show(final double Arg){
         if(getBannerType(Arg) == 8000) {
             RunnerActivity.CurrentActivity.runOnUiThread(new Runnable() {
                 public void run() {
@@ -120,7 +114,11 @@ public class AppodealAds extends Activity  {
                 }
             });
         } else {
-            Appodeal.show(RunnerActivity.CurrentActivity, getAdsType(Arg));
+			RunnerActivity.CurrentActivity.runOnUiThread(new Runnable() {
+                public void run() {
+					Appodeal.show(RunnerActivity.CurrentActivity, getAdsType(Arg));
+				}
+			});
         }
     }
 
@@ -130,7 +128,7 @@ public class AppodealAds extends Activity  {
         return Math.round(px);
     }
 
-    public void appodeal_show_with_placement(double Arg, String placement){
+    public void appodeal_show_with_placement(final double Arg, final String placement){
         final String placement1 = placement;
         if(getBannerType(Arg) == 8000) {
             RunnerActivity.CurrentActivity.runOnUiThread(new Runnable() {
@@ -169,7 +167,11 @@ public class AppodealAds extends Activity  {
                 }
             });
         } else {
-            Appodeal.show(RunnerActivity.CurrentActivity, getAdsType(Arg), placement);
+			RunnerActivity.CurrentActivity.runOnUiThread(new Runnable() {
+                public void run() {
+					Appodeal.show(RunnerActivity.CurrentActivity, getAdsType(Arg), placement);
+				}
+			});
         }
     }
 
@@ -194,6 +196,13 @@ public class AppodealAds extends Activity  {
             Appodeal.setLogLevel(Log.LogLevel.verbose);
 		else
 			Appodeal.setLogLevel(Log.LogLevel.none);
+    }
+
+    public String appodeal_can_show(double Arg, String placement){
+        String arg = "false";
+        if (Appodeal.canShow(getAdsType(Arg), placement))
+            arg = "true";
+        return arg;
     }
 
     public String appodeal_is_loaded(double Arg){
@@ -225,7 +234,7 @@ public class AppodealAds extends Activity  {
         boolean arg1 = false;
         if (Arg1!=0)
             arg1 = true;
-        Appodeal.setOnLoadedTriggerBoth(getAdsType(Arg0), arg1);
+        Appodeal.setTriggerOnLoadedOnPrecache(getAdsType(Arg0), arg1);
     }
 
     public void appodeal_disable_network(String Arg){
@@ -242,10 +251,6 @@ public class AppodealAds extends Activity  {
 
     public void appodeal_disable_write_external_storage_check(){
         Appodeal.disableWriteExternalStoragePermissionCheck();
-    }
-
-    public void appodeal_confirm(double Arg){
-        Appodeal.confirm(getAdsType(Arg));
     }
 
     public void appodeal_track_in_app_purchase(double Arg, String Arg1){
@@ -288,6 +293,13 @@ public class AppodealAds extends Activity  {
             arg1 = true;
         Appodeal.setBannerAnimation(arg1);
     }
+	
+	public void appodeal_mute_videos_if_calls_muted(double Arg){
+        boolean arg = false;
+        if (Arg!=0)
+            arg = true;
+        Appodeal.muteVideosIfCallsMuted(arg);
+    }
 
     private UserSettings getUserSettings() {
         if(userSettings == null) {
@@ -298,14 +310,6 @@ public class AppodealAds extends Activity  {
 
     public void appodeal_set_user_id(String Arg) {
         getUserSettings().setUserId(Arg);
-    }
-
-    public void appodeal_set_user_email(String Arg) {
-        getUserSettings().setEmail(Arg);
-    }
-
-    public void appodeal_set_user_birthday(String Arg) {
-        getUserSettings().setBirthday(Arg);
     }
 
     public void appodeal_set_user_age(double Arg) {
@@ -326,78 +330,6 @@ public class AppodealAds extends Activity  {
         }
     }
 
-    public void appodeal_set_user_occupation(double Arg) {
-        switch ((int)Arg) {
-            case 0:
-                getUserSettings().setOccupation(UserSettings.Occupation.OTHER);
-                break;
-            case 1:
-                getUserSettings().setOccupation(UserSettings.Occupation.WORK);
-                break;
-            case 2:
-                getUserSettings().setOccupation(UserSettings.Occupation.SCHOOL);
-                break;
-            case 3:
-                getUserSettings().setOccupation(UserSettings.Occupation.UNIVERSITY);
-                break;
-        }
-    }
-
-    public void appodeal_set_user_relationship(double Arg) {
-        switch ((int)Arg) {
-            case 0:
-                getUserSettings().setRelation(UserSettings.Relation.OTHER);
-                break;
-            case 1:
-                getUserSettings().setRelation(UserSettings.Relation.SINGLE);
-                break;
-            case 2:
-                getUserSettings().setRelation(UserSettings.Relation.DATING);
-                break;
-            case 3:
-                getUserSettings().setRelation(UserSettings.Relation.ENGAGED);
-                break;
-            case 4:
-                getUserSettings().setRelation(UserSettings.Relation.MARRIED);
-                break;
-            case 5:
-                getUserSettings().setRelation(UserSettings.Relation.SEARCHING);
-                break;
-        }
-    }
-
-    public void appodeal_set_user_smoking_attitude(double Arg) {
-        switch ((int)Arg) {
-            case 0:
-                getUserSettings().setSmoking(UserSettings.Smoking.NEGATIVE);
-                break;
-            case 1:
-                getUserSettings().setSmoking(UserSettings.Smoking.NEUTRAL);
-                break;
-            case 2:
-                getUserSettings().setSmoking(UserSettings.Smoking.POSITIVE);
-                break;
-        }
-    }
-
-    public void appodeal_set_user_alcohol_attitude(double Arg) {
-        switch ((int)Arg) {
-            case 0:
-                getUserSettings().setAlcohol(UserSettings.Alcohol.NEGATIVE);
-                break;
-            case 1:
-                getUserSettings().setAlcohol(UserSettings.Alcohol.NEUTRAL);
-                break;
-            case 2:
-                getUserSettings().setAlcohol(UserSettings.Alcohol.POSITIVE);
-                break;
-        }
-    }
-
-    public void appodeal_set_user_interests(String Arg) {
-        getUserSettings().setInterests(Arg);
-    }
-	
 	public void appodeal_request_android_m_permissions(){
 		Appodeal.requestAndroidMPermissions(RunnerActivity.CurrentActivity, null);
 	}
@@ -413,37 +345,6 @@ public class AppodealAds extends Activity  {
 //++++++++++++++++++++++++++++++++++++++++++++++++++++
 // CALLBACKS
 //++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    public void setSkippableVideoCallbacks(){
-
-        Appodeal.setSkippableVideoCallbacks(new SkippableVideoCallbacks() {
-
-            String Arg = "appodeal_skippable_video";
-
-            @Override
-            public void onSkippableVideoLoaded() {
-                createDsMap(Arg,"loaded");
-            }
-            @Override
-            public void onSkippableVideoFailedToLoad() {
-                createDsMap(Arg,"failed");
-            }
-            @Override
-            public void onSkippableVideoShown() {
-                createDsMap(Arg,"shown");
-            }
-            @Override
-            public void onSkippableVideoFinished() {
-                createDsMap(Arg,"finished");
-            }
-            @Override
-            public void onSkippableVideoClosed(boolean finished) {
-                createDsMap(Arg,"closed");
-            }
-
-        });
-
-    }
 
     public void setNonSkippableVideoCallbacks(){
 
@@ -565,14 +466,6 @@ public class AppodealAds extends Activity  {
 
         });
 
-    }
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Appodeal.onResume(RunnerActivity.CurrentActivity, Appodeal.BANNER);
     }
 
 }

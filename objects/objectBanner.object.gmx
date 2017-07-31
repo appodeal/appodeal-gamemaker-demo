@@ -39,7 +39,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>appodeal_show(BANNER_BOTTOM_RIGHT)
+            <string>appodeal_show(BANNER_BOTTOM)
 </string>
           </argument>
         </arguments>

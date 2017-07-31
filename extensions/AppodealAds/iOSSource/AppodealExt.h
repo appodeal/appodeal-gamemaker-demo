@@ -3,7 +3,7 @@
 #include <UIKit/UIKit.h>
 #include <Foundation/Foundation.h>
 
-@interface AppodealAds: NSObject <AppodealInterstitialDelegate, AppodealBannerDelegate, AppodealSkippableVideoDelegate, AppodealRewardedVideoDelegate, APDBannerViewDelegate, AppodealNonSkippableVideoDelegate>
+@interface AppodealAds: NSObject <AppodealInterstitialDelegate, AppodealBannerDelegate, AppodealRewardedVideoDelegate, APDBannerViewDelegate, AppodealNonSkippableVideoDelegate>
 
 @property (nonatomic, strong) UIView* myView;
 @property (nonatomic) NSInteger adViewType;
@@ -15,24 +15,24 @@
 - (void)appodeal_show_with_placement:(double)type placement:(char*)placement;
 - (void)appodeal_confirm:(double)type;
 - (NSString *)appodeal_is_loaded:(double)type;
+- (NSString *)appodeal_can_show:(double)type placement:(char*)placement;
 - (void)appodeal_cache:(double)type;
 - (void)appodeal_disable_network:(char*)network;
 - (void)appodeal_disable_network_for_adtype:(double)type network:(char*)network;
 - (void)appodeal_set_auto_cache:(double)autoCache type:(double)type;
-- (void)appodeal_hide;
+- (void)appodeal_hide:(double)type;
 - (void)appodeal_set_testing:(double)boolean;
 - (void)appodeal_set_logging:(double)boolean;
 - (void)appodeal_track_in_app_purchase:(double)amount currency:(char*)currency;
 - (void)appodeal_disable_location_permission_check;
-- (void)appodeal_set_custom_double_segment:(char*)name Arg2:(double)value;
-- (void)appodeal_set_custom_boolean_segment:(char*)name Arg2:(double)value;
-- (void)appodeal_set_custom_int_segment:(char*)name Arg2:(double)value;
-- (void)appodeal_set_custom_string_segment:(char*)name Arg2:(char*)value;
+- (void)appodeal_set_custom_double_rule:(char*)name Arg2:(double)value;
+- (void)appodeal_set_custom_boolean_rule:(char*)name Arg2:(double)value;
+- (void)appodeal_set_custom_int_rule:(char*)name Arg2:(double)value;
+- (void)appodeal_set_custom_string_rule:(char*)name Arg2:(char*)value;
 - (void)appodeal_set_banner_animated:(double)boolean;
 - (void)appodeal_set_smart_banner_enabled:(double)boolean;
 - (void)appodeal_set_background_visible:(double)boolean;
 
-- (void)appodeal_setSkippableVideoDelegate;
 - (void)appodeal_setNonSkippableVideoDelegate;
 - (void)appodeal_setInterstitialDelegate;
 - (void)appodeal_setBannerDelegate;
