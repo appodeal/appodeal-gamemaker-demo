@@ -1,4 +1,4 @@
-#import “AppodealExt.h”
+#import "AppodealExt.h"
 
 #include <asl.h>
 #include <stdio.h>
@@ -11,7 +11,7 @@
 const int EVENT_OTHER_SOCIAL = 70;
 extern UIView *g_glView;
 
-extern “C” NSString* findOption( const char* _key );
+extern "C" NSString* findOption( const char* _key );
 extern bool F_DsMapAdd_Internal(int _index, char* _pKey, double _value);
 extern bool F_DsMapAdd_Internal(int _index, char* _pKey, char* _pValue);
 
@@ -148,9 +148,9 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
 {
     NSString *ValueFromBOOL;
     if(value == 0) {
-        ValueFromBOOL = @“YES”;
+        ValueFromBOOL = @"YES";
     } else {
-        ValueFromBOOL = @“NO”;
+        ValueFromBOOL = @"NO";
     }
     
     NSDictionary *tempDictionary = @{[NSString stringWithUTF8String:name]: ValueFromBOOL};
@@ -193,18 +193,18 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
 - (NSString *)appodeal_is_loaded:(double)type
 {
     if([Appodeal isReadyForShowWithStyle:[self appodealShowStyleConvert:((int) type)]]) {
-        return @“true”;
+        return @"true";
     } else {
-        return @“false”;
+        return @"false";
     }
 }
 
 - (NSString *)appodeal_can_show:(double)type placement:(char*)placement
 {
     if([Appodeal canShowAd:[self appodealShowStyleConvert:((int) type)] forPlacement:[NSString stringWithCString:placement]]) {
-        return @“true”;
+        return @"true";
     } else {
-        return @“false”;
+        return @"false";
     }
 }
 
@@ -303,64 +303,64 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
 - (void)bannerDidLoadAd
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_banner”, (char*)“loaded”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"loaded");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)bannerDidFailToLoadAd
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_banner”, (char*)“failed”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"failed");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)bannerDidRefresh {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_banner”, (char*)“refreshed”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"refreshed");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)bannerDidClick
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_banner”, (char*)“clicked”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"clicked");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)bannerDidShow
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_banner”, (char*)“shown”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"shown");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)bannerViewDidLoadAd:(APDBannerView *)bannerView {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_banner”, (char*)“loaded”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"loaded");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)precacheBannerViewDidLoadAd:(APDBannerView *)precacheBannerView {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_banner”, (char*)“loaded”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"loaded");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)bannerViewDidRefresh:(APDBannerView *)bannerView {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_banner”, (char*)“refreshed”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"refreshed");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)bannerView:(APDBannerView *)bannerView didFailToLoadAdWithError:(NSError *)error {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_banner”, (char*)“failed”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"failed");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)bannerViewDidReceiveTapAction:(APDBannerView *)bannerView {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_banner”, (char*)“clicked”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_banner", (char*)"clicked");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
@@ -369,35 +369,35 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
 - (void)interstitialDidLoadAd
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_interstitial”, (char*)“loaded”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_interstitial", (char*)"loaded");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)interstitialDidFailToLoadAd
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_interstitial”, (char*)“failed”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_interstitial", (char*)"failed");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)interstitialWillPresent
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_interstitial”, (char*)“shown”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_interstitial", (char*)"shown");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)interstitialDidDismiss
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_interstitial”, (char*)“closed”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_interstitial", (char*)"closed");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)interstitialDidClick
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_interstitial”, (char*)“clicked”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_interstitial", (char*)"clicked");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
@@ -406,35 +406,35 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
 - (void)nonSkippableVideoDidLoadAd
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_non_skippable_video”, (char*)“loaded”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_non_skippable_video", (char*)"loaded");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)nonSkippableVideoDidFailToLoadAd
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_non_skippable_video”, (char*)“failed”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_non_skippable_video", (char*)"failed");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)nonSkippableVideoDidPresent
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_non_skippable_video”, (char*)“shown”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_non_skippable_video", (char*)"shown");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)nonSkippableVideoWillDismiss
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_non_skippable_video”, (char*)“closed”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_non_skippable_video", (char*)"closed");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)nonSkippableVideoDidFinish
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_non_skippable_video”, (char*)“finished”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_non_skippable_video", (char*)"finished");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
@@ -443,35 +443,35 @@ extern void CreateAsynEventWithDSMap(int dsmapindex, int event_index);
 - (void)rewardedVideoDidLoadAd
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_rewarded_video”, (char*)“loaded”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_rewarded_video", (char*)"loaded");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)rewardedVideoDidFailToLoadAd
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_rewarded_video”, (char*)“failed”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_rewarded_video", (char*)"failed");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)rewardedVideoWillDismiss
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_rewarded_video”, (char*)“closed”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_rewarded_video", (char*)"closed");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)rewardedVideoDidPresent
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_rewarded_video”, (char*)“shown”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_rewarded_video", (char*)"shown");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
 - (void)rewardedVideoDidFinish:(NSUInteger)rewardAmount name:(NSString *)rewardName
 {
     int my_map_index = CreateDsMap(0);
-    F_DsMapAdd_Internal(my_map_index, (char*)“appodeal_rewarded_video”, (char*)“finished”);
+    F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_rewarded_video", (char*)"finished");
     CreateAsynEventWithDSMap(my_map_index, EVENT_OTHER_SOCIAL);
 }
 
