@@ -82,6 +82,8 @@
 }
 if(interstitialState == 2)
 {
+    appodeal_hide(BANNER)
+    appodeal_destroy(BANNER)
     appodeal_show_with_placement(INTERSTITIAL, "level_end")
     appodeal_set_custom_boolean_rule("level_end", true)
     appodeal_set_custom_double_rule("level_end", 32)
