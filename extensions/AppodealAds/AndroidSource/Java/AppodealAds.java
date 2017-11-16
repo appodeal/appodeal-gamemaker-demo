@@ -340,6 +340,10 @@ public class AppodealAds extends Activity  {
 			arg = true;
 		Appodeal.set728x90Banners(arg);
 	}
+	
+	public void appodeal_destroy(double Arg){
+		Appodeal.destroy(getAdsType(Arg));
+	}
 
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++
