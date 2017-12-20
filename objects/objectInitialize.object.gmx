@@ -43,10 +43,13 @@
 appodeal_set_user_gender(GENDER_FEMALE)
 appodeal_set_user_id("custom_user_id")
 appodeal_request_android_m_permissions()
+appodeal_set_child_directed_treatment(false)
+appodeal_mute_videos_if_calls_muted(true)
+appodeal_track_in_app_purchase(10, "USD")
 
-appodeal_set_logging(true)
-appodeal_set_auto_cache(INTERSTITIAL, false)
+appodeal_set_auto_cache(REWARDED_VIDEO, false)
 appodeal_init("fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f", REWARDED_VIDEO | BANNER | INTERSTITIAL)
+show_message("Appodeal SDK Initialized, v." + appodeal_get_version())
 </string>
           </argument>
         </arguments>

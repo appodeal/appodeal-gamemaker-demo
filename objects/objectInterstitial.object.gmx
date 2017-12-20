@@ -39,7 +39,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>interstitialState = 0; //0 - not loaded; 1 - loading; 2 - loaded
+            <string>if (appodeal_can_show(INTERSTITIAL))
+    appodeal_show(INTERSTITIAL)
 </string>
           </argument>
         </arguments>

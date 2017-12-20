@@ -40,7 +40,7 @@
           <argument>
             <kind>1</kind>
             <string>if(checked)
-    appodeal_set_728x90_banners(false)
+    appodeal_set_728x90_banners(false);
 else
     appodeal_set_728x90_banners(true);
 </string>

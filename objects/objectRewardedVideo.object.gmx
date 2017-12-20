@@ -41,6 +41,8 @@
             <kind>1</kind>
             <string>if(appodeal_is_loaded(REWARDED_VIDEO))
     appodeal_show(REWARDED_VIDEO)
+else
+    appodeal_cache(REWARDED_VIDEO)
 </string>
           </argument>
         </arguments>

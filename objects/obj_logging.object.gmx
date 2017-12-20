@@ -40,9 +40,9 @@
           <argument>
             <kind>1</kind>
             <string>if(checked)
-    appodeal_set_logging(true);
+    appodeal_set_log_level("verbose");
 else
-    appodeal_set_logging(false);
+    appodeal_set_log_level("off");
 </string>
           </argument>
         </arguments>
