@@ -68,13 +68,16 @@ public class AppodealAds extends Activity  {
 //+++++++++++++++++++++++++++++++++++++++++++++
 
 
-    public void appodeal_init(String Arg, double Arg1) {
+    public void appodeal_init(String Arg, double Arg1, double Arg2) {
+        boolean hasConsent = false;
+        if (Arg2!=0)
+            hasConsent = true;
         setNonSkippableVideoCallbacks();
         setRewardedVideoCallbacks();
         setInterstitialCallbacks();
         setBannerCallbacks();
-        Appodeal.setFramework("gm", "3.1.11");
-        Appodeal.initialize(RunnerActivity.CurrentActivity, Arg, getAdsType(Arg1));
+        Appodeal.setFramework("gm", "3.1.42");
+        Appodeal.initialize(RunnerActivity.CurrentActivity, Arg, getAdsType(Arg1), hasConsent);
     }
 
     public void appodeal_show(final double Arg) {
@@ -311,23 +314,23 @@ public class AppodealAds extends Activity  {
         Appodeal.trackInAppPurchase(RunnerActivity.CurrentActivity, (int) Arg, Arg1);
     }
 
-    public void appodeal_set_custom_boolean_rule(String Arg, double Arg1) {
+    public void appodeal_set_segment_filter_boolean(String Arg, double Arg1) {
         boolean arg1 = false;
         if (Arg1!=0)
             arg1 = true;
-        Appodeal.setCustomRule(Arg, arg1);
+        Appodeal.setSegmentFilter(Arg, arg1);
     }
 
-    public void appodeal_set_custom_double_rulet(String Arg, double Arg1) {
-        Appodeal.setCustomRule(Arg, Arg1);
+    public void appodeal_set_segment_filter_double(String Arg, double Arg1) {
+        Appodeal.setSegmentFilter(Arg, Arg1);
     }
 
-    public void appodeal_set_custom_int_rule(String Arg, double Arg1) {
-        Appodeal.setCustomRule(Arg, (int) Arg1);
+    public void appodeal_set_segment_filter_int(String Arg, double Arg1) {
+        Appodeal.setSegmentFilter(Arg, (int) Arg1);
     }
 
-    public void appodeal_set_custom_string_rule(String Arg, String Arg1) {
-        Appodeal.setCustomRule(Arg, Arg1);
+    public void appodeal_set_segment_filter_string(String Arg, String Arg1) {
+        Appodeal.setSegmentFilter(Arg, Arg1);
     }
     
     public void appodeal_mute_videos_if_calls_muted(double Arg) {
@@ -393,7 +396,7 @@ public class AppodealAds extends Activity  {
             String Arg = "appodeal_non_skippable_video";
 
             @Override
-            public void onNonSkippableVideoLoaded() {
+            public void onNonSkippableVideoLoaded(boolean isPrecache) {
                 createDsMap(Arg,"loaded");
             }
             @Override
@@ -424,7 +427,7 @@ public class AppodealAds extends Activity  {
             String Arg = "appodeal_rewarded_video";
 
             @Override
-            public void onRewardedVideoLoaded() {
+            public void onRewardedVideoLoaded(boolean isPrecache) {
                 createDsMap(Arg,"loaded");
             }
             @Override
@@ -436,7 +439,7 @@ public class AppodealAds extends Activity  {
                 createDsMap(Arg,"shown");
             }
             @Override
-            public void onRewardedVideoFinished(int amount, String name) {
+            public void onRewardedVideoFinished(double amount, String name) {
                 createDsMap(Arg,"finished");
             }
             @Override

@@ -12,7 +12,7 @@
 
 //common methods
 
-- (void)appodeal_init:(char*)appKey Arg2:(double)AdTypes;
+- (void)appodeal_init:(char*)appKey Arg1:(double)AdTypes Arg2:(double)hasConsent;
 - (void)appodeal_show:(double)AdType;
 - (void)appodeal_show_with_placement:(double)type Arg2:(char*)placement;
 - (NSString *)appodeal_is_loaded:(double)type;
@@ -27,7 +27,7 @@
 - (void)appodeal_set_background_visible:(double)boolean;
 
 //Advanced features
-
+- (void)appodeal_request_android_m_permissions;
 - (void)appodeal_set_testing:(double)boolean;
 - (void)appodeal_set_log_level:(char*)logLevel; //MODIFIED
 - (void)appodeal_set_child_directed_treatment:(double)boolean; //NEW
@@ -43,10 +43,10 @@
 
 - (NSString *)appodeal_can_show:(double)type; //MODIFIED
 - (NSString *)appodeal_can_show_for_placement:(double)type Arg2:(char*)placement; //NEW
-- (void)appodeal_set_custom_string_rule:(char*)name Arg2:(char*)value;
-- (void)appodeal_set_custom_int_rule:(char*)name Arg2:(double)value;
-- (void)appodeal_set_custom_boolean_rule:(char*)name Arg2:(double)value;
-- (void)appodeal_set_custom_double_rule:(char*)name Arg2:(double)value;
+- (void)appodeal_set_segment_filter_string:(char*)name Arg2:(char*)value;
+- (void)appodeal_set_segment_filter_int:(char*)name Arg2:(double)value;
+- (void)appodeal_set_segment_filter_boolean:(char*)name Arg2:(double)value;
+- (void)appodeal_set_segment_filter_double:(char*)name Arg2:(double)value;
 - (NSString *)appodeal_get_reward:(char*)placement; //NEW
 - (NSString *)appodeal_get_reward_amount:(char*)placement; //NEW
 - (NSString *)appodeal_get_reward_currency:(char*)placement; //NEW

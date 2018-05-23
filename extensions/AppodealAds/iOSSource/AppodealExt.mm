@@ -32,23 +32,23 @@ NSMutableDictionary *customRules;
 {
     int resultType = 0;
     if (showType == 3) {
-        resultType |= AppodealShowStyleInterstitial;
+        resultType = AppodealShowStyleInterstitial;
     }
     
     if (showType == 16) {
-        resultType |= AppodealShowStyleBannerTop;
+        resultType = AppodealShowStyleBannerTop;
     }
     
     if (showType == 8) {
-        resultType |= AppodealShowStyleBannerBottom;
+        resultType = AppodealShowStyleBannerBottom;
     }
     
     if (showType == 128) {
-        resultType |= AppodealShowStyleRewardedVideo;
+        resultType = AppodealShowStyleRewardedVideo;
     }
     
     if (showType == 256) {
-        resultType |= AppodealShowStyleNonSkippableVideo;
+        resultType = AppodealShowStyleNonSkippableVideo;
     }
    
     return (AppodealShowStyle) resultType;
@@ -105,12 +105,19 @@ APDLogLevel parseLogLevel (NSString * log) {
 
 #pragma mark Common methods
 
-- (void)appodeal_init:(char*)appKey Arg2:(double)AdTypes
+- (void)appodeal_init:(char*)appKey Arg1:(double)AdTypes Arg2:(double)hasConsent
 {
+    BOOL consent = false;
+
+    if (hasConsent == 0)
+        consent = false;
+    else
+        consent = true;
+
     customRules = [[NSMutableDictionary alloc] init];
     [Appodeal setFramework:APDFrameworkGameMaker];
-    [Appodeal setPluginVersion:@"3.1.10"];
-    [Appodeal initializeWithApiKey:[NSString stringWithCString:appKey encoding:NSUTF8StringEncoding] types:[self appodealAdTypeConvert: ((int) AdTypes)]];
+    [Appodeal setPluginVersion:@"3.1.41"];
+    [Appodeal initializeWithApiKey:[NSString stringWithCString:appKey encoding:NSUTF8StringEncoding] types:[self appodealAdTypeConvert: ((int) AdTypes)] hasConsent:consent];
     [Appodeal setInterstitialDelegate:self];
     [Appodeal setBannerDelegate:self];
     [Appodeal setRewardedVideoDelegate:self];
@@ -243,7 +250,6 @@ APDLogLevel parseLogLevel (NSString * log) {
 {
     [Appodeal disableNetworkForAdType:AppodealAdTypeBanner name:[NSString stringWithCString:network encoding:NSUTF8StringEncoding]];
     [Appodeal disableNetworkForAdType:AppodealAdTypeInterstitial name:[NSString stringWithCString:network encoding:NSUTF8StringEncoding]];
-    [Appodeal disableNetworkForAdType:AppodealAdTypeSkippableVideo name:[NSString stringWithCString:network encoding:NSUTF8StringEncoding]];
     [Appodeal disableNetworkForAdType:AppodealAdTypeNonSkippableVideo name:[NSString stringWithCString:network encoding:NSUTF8StringEncoding]];
     [Appodeal disableNetworkForAdType:AppodealAdTypeRewardedVideo name:[NSString stringWithCString:network encoding:NSUTF8StringEncoding]];
 }
@@ -279,7 +285,7 @@ APDLogLevel parseLogLevel (NSString * log) {
 
 - (NSString *)appodeal_can_show:(double)type
 {
-    if([Appodeal canShowAd:[self appodealShowStyleConvert:((int) type)] forPlacement:@"default"]) {
+    if([Appodeal canShow:[self appodealShowStyleConvert:((int) type)] forPlacement:@"default"]) {
         return @"true";
     } else {
         return @"false";
@@ -288,32 +294,32 @@ APDLogLevel parseLogLevel (NSString * log) {
 
 - (NSString *)appodeal_can_show_for_placement:(double)type Arg2:(char*)placement
 {
-    if([Appodeal canShowAd:[self appodealShowStyleConvert:((int) type)] forPlacement:[NSString stringWithCString:placement]]) {
+    if([Appodeal canShow:[self appodealShowStyleConvert:((int) type)] forPlacement:[NSString stringWithCString:placement]]) {
         return @"true";
     } else {
         return @"false";
     }
 }
 
-- (void)appodeal_set_custom_string_rule:(char*)name Arg2:(char*)value
+- (void)appodeal_set_segment_filter_string:(char*)name Arg2:(char*)value
 {
     if (customRules) {
         NSDictionary *tempDictionary = @{[NSString stringWithUTF8String:name]: [NSString stringWithUTF8String:value]};
         [customRules addEntriesFromDictionary:tempDictionary];
-        [Appodeal setCustomRule:customRules];
+        [Appodeal setSegmentFilter:customRules];
     }
 }
 
-- (void)appodeal_set_custom_int_rule:(char*)name Arg2:(double)value
+- (void)appodeal_set_segment_filter_int:(char*)name Arg2:(double)value
 {
     if (customRules) {
         NSDictionary *tempDictionary = @{[NSString stringWithUTF8String:name]: [NSNumber numberWithInt:(int)value]};
         [customRules addEntriesFromDictionary:tempDictionary];
-        [Appodeal setCustomRule:customRules];
+        [Appodeal setSegmentFilter:customRules];
     }
 }
 
-- (void)appodeal_set_custom_boolean_rule:(char*)name Arg2:(double)value
+- (void)appodeal_set_segment_filter_boolean:(char*)name Arg2:(double)value
 {
     if (customRules) {
         BOOL BoolFromDouble;
@@ -324,16 +330,16 @@ APDLogLevel parseLogLevel (NSString * log) {
         }
         NSDictionary *tempDictionary = @{[NSString stringWithUTF8String:name]: [NSNumber numberWithBool:BoolFromDouble]};
         [customRules addEntriesFromDictionary:tempDictionary];
-        [Appodeal setCustomRule:customRules];
+        [Appodeal setSegmentFilter:customRules];
     }
 }
 
-- (void)appodeal_set_custom_double_rule:(char*)name Arg2:(double)value
+- (void)appodeal_set_segment_filter_double:(char*)name Arg2:(double)value
 {
     if (customRules) {
         NSDictionary *tempDictionary = @{[NSString stringWithUTF8String:name]: [NSNumber numberWithDouble:value]};
         [customRules addEntriesFromDictionary:tempDictionary];
-        [Appodeal setCustomRule:customRules];
+        [Appodeal setSegmentFilter:customRules];
     }
 }
 
@@ -370,6 +376,8 @@ APDLogLevel parseLogLevel (NSString * log) {
     else
         return @"";
 }
+
+- (void)appodeal_request_android_m_permissions {}
 
 
 
@@ -420,7 +428,7 @@ APDLogLevel parseLogLevel (NSString * log) {
     [Appodeal setInterstitialDelegate:self];
 }
 
-- (void)interstitialDidLoadAd
+- (void)interstitialDidLoadAdisPrecache:(BOOL)precache
 {
     int my_map_index = CreateDsMap(0);
     F_DsMapAdd_Internal(my_map_index, (char*)"appodeal_interstitial", (char*)"loaded");
