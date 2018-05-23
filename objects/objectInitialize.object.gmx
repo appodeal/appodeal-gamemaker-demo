@@ -47,8 +47,8 @@ appodeal_set_child_directed_treatment(false)
 appodeal_mute_videos_if_calls_muted(true)
 appodeal_track_in_app_purchase(10, "USD")
 
-appodeal_set_auto_cache(REWARDED_VIDEO, false)
-appodeal_init("fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f", REWARDED_VIDEO | BANNER | INTERSTITIAL)
+appodeal_set_auto_cache(REWARDED_VIDEO, 0)
+appodeal_init("fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f", REWARDED_VIDEO | BANNER | INTERSTITIAL, true)
 show_message("Appodeal SDK Initialized, v." + appodeal_get_version())
 </string>
           </argument>

@@ -39,7 +39,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(appodeal_is_loaded(REWARDED_VIDEO))
+            <string>if(appodeal_is_loaded(REWARDED_VIDEO) == "true")
     appodeal_show(REWARDED_VIDEO)
 else
     appodeal_cache(REWARDED_VIDEO)

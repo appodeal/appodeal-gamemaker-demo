@@ -44,12 +44,12 @@ public class AppodealAds extends Activity  {
         if((typeArg & Appodeal.BANNER) > 0) {
             adType |= Appodeal.BANNER;
         }
-		if((typeArg & Appodeal.BANNER_BOTTOM) > 0) {
-			adType |= Appodeal.BANNER_BOTTOM;
-		}
-		if((typeArg & Appodeal.BANNER_TOP) > 0) {
-			adType |= Appodeal.BANNER_TOP;
-		}
+        if((typeArg & Appodeal.BANNER_BOTTOM) > 0) {
+            adType |= Appodeal.BANNER_BOTTOM;
+        }
+        if((typeArg & Appodeal.BANNER_TOP) > 0) {
+            adType |= Appodeal.BANNER_TOP;
+        }
         return adType;
     }
 
@@ -73,7 +73,7 @@ public class AppodealAds extends Activity  {
         setRewardedVideoCallbacks();
         setInterstitialCallbacks();
         setBannerCallbacks();
-	Appodeal.setFramework("gm", "3.1.6");
+        Appodeal.setFramework("gm", "3.1.11");
         Appodeal.initialize(RunnerActivity.CurrentActivity, Arg, getAdsType(Arg1));
     }
 
@@ -115,11 +115,11 @@ public class AppodealAds extends Activity  {
                 }
             });
         } else {
-			RunnerActivity.CurrentActivity.runOnUiThread(new Runnable() {
+            RunnerActivity.CurrentActivity.runOnUiThread(new Runnable() {
                 public void run() {
-					Appodeal.show(RunnerActivity.CurrentActivity, getAdsType(Arg));
-				}
-			});
+                    Appodeal.show(RunnerActivity.CurrentActivity, getAdsType(Arg));
+                }
+            });
         }
     }
 
@@ -168,11 +168,11 @@ public class AppodealAds extends Activity  {
                 }
             });
         } else {
-			RunnerActivity.CurrentActivity.runOnUiThread(new Runnable() {
+            RunnerActivity.CurrentActivity.runOnUiThread(new Runnable() {
                 public void run() {
-					Appodeal.show(RunnerActivity.CurrentActivity, getAdsType(Arg), placement);
-				}
-			});
+                    Appodeal.show(RunnerActivity.CurrentActivity, getAdsType(Arg), placement);
+                }
+            });
         }
     }
 
@@ -329,8 +329,8 @@ public class AppodealAds extends Activity  {
     public void appodeal_set_custom_string_rule(String Arg, String Arg1) {
         Appodeal.setCustomRule(Arg, Arg1);
     }
-	
-	public void appodeal_mute_videos_if_calls_muted(double Arg) {
+    
+    public void appodeal_mute_videos_if_calls_muted(double Arg) {
         boolean arg = false;
         if (Arg!=0)
             arg = true;
@@ -366,20 +366,20 @@ public class AppodealAds extends Activity  {
         }
     }
 
-	public void appodeal_request_android_m_permissions() {
-		Appodeal.requestAndroidMPermissions(RunnerActivity.CurrentActivity, null);
-	}
-	
-	public void appodeal_set_728x90_banners(double Arg) {
-		boolean arg = false;
-		if(Arg!=0)
-			arg = true;
-		Appodeal.set728x90Banners(arg);
-	}
-	
-	public void appodeal_destroy(double Arg) {
-		Appodeal.destroy(getAdsType(Arg));
-	}
+    public void appodeal_request_android_m_permissions() {
+        Appodeal.requestAndroidMPermissions(RunnerActivity.CurrentActivity, null);
+    }
+    
+    public void appodeal_set_728x90_banners(double Arg) {
+        boolean arg = false;
+        if(Arg!=0)
+            arg = true;
+        Appodeal.set728x90Banners(arg);
+    }
+    
+    public void appodeal_destroy(double Arg) {
+        Appodeal.destroy(getAdsType(Arg));
+    }
 
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++

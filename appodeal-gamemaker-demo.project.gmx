@@ -37,7 +37,6 @@
     <object>objects\obj_logging</object>
     <object>objects\obj_disable_big_banners</object>
     <object>objects\obj_disable_banner_animation</object>
-    <object>objects\obj_notification</object>
     <object>objects\obj_disable_smart</object>
     <object>objects\obj_enable_background</object>
   </objects>

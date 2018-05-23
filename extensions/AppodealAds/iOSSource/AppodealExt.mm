@@ -109,7 +109,7 @@ APDLogLevel parseLogLevel (NSString * log) {
 {
     customRules = [[NSMutableDictionary alloc] init];
     [Appodeal setFramework:APDFrameworkGameMaker];
-    [Appodeal setPluginVersion:@"2.1.7"];
+    [Appodeal setPluginVersion:@"3.1.10"];
     [Appodeal initializeWithApiKey:[NSString stringWithCString:appKey encoding:NSUTF8StringEncoding] types:[self appodealAdTypeConvert: ((int) AdTypes)]];
     [Appodeal setInterstitialDelegate:self];
     [Appodeal setBannerDelegate:self];
@@ -221,8 +221,8 @@ APDLogLevel parseLogLevel (NSString * log) {
 
 - (void)appodeal_set_log_level:(char*)logLevel
 {
-    APDLogLevel logLevel = parseLogLevel([NSString stringWithCString:logLevel encoding:NSUTF8StringEncoding]);
-    [Appodeal setLogLevel:logLevel];
+    APDLogLevel level = parseLogLevel([NSString stringWithCString:logLevel encoding:NSUTF8StringEncoding]);
+    [Appodeal setLogLevel:level];
 }
 
 - (void)appodeal_set_child_directed_treatment:(double)boolean
@@ -279,7 +279,7 @@ APDLogLevel parseLogLevel (NSString * log) {
 
 - (NSString *)appodeal_can_show:(double)type
 {
-    if([Appodeal canShowAd:[self appodealShowStyleConvert:((int) type)]]) {
+    if([Appodeal canShowAd:[self appodealShowStyleConvert:((int) type)] forPlacement:@"default"]) {
         return @"true";
     } else {
         return @"false";
@@ -339,7 +339,7 @@ APDLogLevel parseLogLevel (NSString * log) {
 
 - (NSString *)appodeal_get_reward:(char*)placement
 {
-    NSObject <APDReward> * reward = [Appodeal rewardForPlacement: placementName];
+    NSObject <APDReward> * reward = [Appodeal rewardForPlacement:[NSString stringWithCString:placement encoding:NSUTF8StringEncoding]];
     if (reward) {
         NSString *rewardCurrency = reward.currencyName;
         NSUInteger rewardAmount = reward.amount;
@@ -351,7 +351,7 @@ APDLogLevel parseLogLevel (NSString * log) {
 
 - (NSString *)appodeal_get_reward_amount:(char*)placement
 {
-    NSObject <APDReward> * reward = [Appodeal rewardForPlacement: placementName];
+    NSObject <APDReward> * reward = [Appodeal rewardForPlacement:[NSString stringWithCString:placement encoding:NSUTF8StringEncoding]];
     if (reward) {
         NSUInteger rewardAmount = reward.amount;
         return [NSString stringWithFormat: @"%ld", (long)rewardAmount];
@@ -362,7 +362,7 @@ APDLogLevel parseLogLevel (NSString * log) {
 
 - (NSString *)appodeal_get_reward_currency:(char*)placement
 {
-    NSObject <APDReward> * reward = [Appodeal rewardForPlacement: placementName];
+    NSObject <APDReward> * reward = [Appodeal rewardForPlacement:[NSString stringWithCString:placement encoding:NSUTF8StringEncoding]];
     if (reward) {
         NSString *rewardCurrency = reward.currencyName;
         return rewardCurrency;

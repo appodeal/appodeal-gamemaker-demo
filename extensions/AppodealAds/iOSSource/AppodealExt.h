@@ -30,7 +30,7 @@
 
 - (void)appodeal_set_testing:(double)boolean;
 - (void)appodeal_set_log_level:(char*)logLevel; //MODIFIED
-- (void)appodeal_set_child_directed_treatment:(double)boolean //NEW
+- (void)appodeal_set_child_directed_treatment:(double)boolean; //NEW
 - (void)appodeal_disable_network_for_adtype:(double)type Arg2:(char*)network;
 - (void)appodeal_disable_network:(char*)network;
 - (void)appodeal_disable_location_permission_check;
